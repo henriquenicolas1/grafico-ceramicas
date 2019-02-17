@@ -1,28 +1,62 @@
 import React, { Component } from 'react';
 import './App.css';
-//import { MateriaisCeramicosDuplicados } from './lib/MateriaisCeramicosDuplicados.js';
+import { MateriaisCeramicosDuplicados } from './lib/MateriaisCeramicosDuplicados.js';
 import CanvasJSReact from './canvasjs.react';
+import _ from 'lodash';
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 class App extends Component {
-  render() {
-    const options = {
+  calculaDataPointsComLabel = MateriaisCeramicosDuplicados => {
+    return _.map(MateriaisCeramicosDuplicados, material => {
+      return {
+        x: material.ConstanteDieletrica,
+        y: material.FatorQualidade ? material.FatorQualidade : 0,
+        toolTipContent: `<b>Material: </b> ${
+          material.Material
+        } <br/><b>εr: </b>{x}<br/><b>Qf: </b>{y}`
+      };
+    });
+  };
+
+  calculaDataPointsLogaritmoComLabel = MateriaisCeramicosDuplicados => {
+    return _.map(MateriaisCeramicosDuplicados, material => {
+      if (material.FatorQualidade) {
+        return {
+          x: Math.log(material.ConstanteDieletrica),
+          y: Math.log(material.FatorQualidade),
+          toolTipContent: `<b>Material: </b> ${
+            material.Material
+          } <br/><b>εr: </b>{x}<br/><b>Qf: </b>{y}`
+        };
+      } else {
+        return {
+          x: 0,
+          y: 0,
+          toolTipContent: `<b>Material: </b> ${
+            material.Material
+          } <br/><b>εr: </b>${material.ConstanteDieletrica}<br/><b>Qf: </b>{y}`
+        };
+      }
+    });
+  };
+
+  obterOpcoesGrafico = (listaMateriais, titulo, tituloX, tituloY) => {
+    return {
       theme: 'dark2',
       animationEnabled: true,
       zoomEnabled: true,
       title: {
-        text: 'Ice Cream Sales vs Temperature'
+        text: titulo
       },
       axisX: {
-        title: 'Temperature (in °C)',
-        suffix: '°C',
+        title: tituloX,
         crosshair: {
           enabled: true,
           snapToDataPoint: true
         }
       },
       axisY: {
-        title: 'Sales',
+        title: tituloY,
         includeZero: false,
         crosshair: {
           enabled: true,
@@ -32,34 +66,41 @@ class App extends Component {
       data: [
         {
           type: 'scatter',
-          markerSize: 15,
-          toolTipContent: '<b>Temperature: </b>{x}°C<br/><b>Sales: </b>{y}',
-          dataPoints: [
-            { x: 14.2, y: 215 },
-            { x: 14.2, y: 175 },
-            { x: 16.4, y: 325 },
-            { x: 26.9, y: 635 },
-            { x: 32.5, y: 464 },
-            { x: 22.1, y: 522 },
-            { x: 19.4, y: 412 },
-            { x: 25.1, y: 614 },
-            { x: 34.9, y: 374 },
-            { x: 28.7, y: 625 },
-            { x: 23.4, y: 544 },
-            { x: 31.4, y: 502 },
-            { x: 40.8, y: 262 },
-            { x: 37.4, y: 312 },
-            { x: 42.3, y: 202 },
-            { x: 39.1, y: 302 },
-            { x: 17.2, y: 408 }
-          ]
+          markerSize: 10,
+          dataPoints: listaMateriais
         }
       ]
     };
+  };
+
+  render() {
+    const materiais = this.calculaDataPointsComLabel(
+      MateriaisCeramicosDuplicados
+    );
+
+    const materiaisLog = this.calculaDataPointsLogaritmoComLabel(
+      MateriaisCeramicosDuplicados
+    );
 
     return (
       <div className='App'>
-        <CanvasJSChart options={options} />
+        <CanvasJSChart
+          options={this.obterOpcoesGrafico(
+            materiais,
+            'Fator de Qualidade - Qf (GHz) vs Constante Dielétrica - εr',
+            'Constante Dielétrica',
+            'Fator de Qualidade (GHz)'
+          )}
+        />
+        <br />
+        <CanvasJSChart
+          options={this.obterOpcoesGrafico(
+            materiaisLog,
+            'Fator de Qualidade - Qf (GHz) vs Constante Dielétrica - εr',
+            'Log(εr)',
+            'Log(Qf)'
+          )}
+        />
       </div>
     );
   }
