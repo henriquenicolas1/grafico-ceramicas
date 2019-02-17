@@ -11,32 +11,26 @@ class App extends Component {
       return {
         x: material.ConstanteDieletrica,
         y: material.FatorQualidade ? material.FatorQualidade : 0,
-        toolTipContent: `<b>Material: </b> ${
-          material.Material
-        } <br/><b>εr: </b>{x}<br/><b>Qf: </b>{y}`
+        toolTipContent: `
+        <b>Id: </b> ${material.Id} <br/>
+        <b>Material: </b> ${material.Material} <br/>
+        <b>εr: </b>{x}<br/>
+        <b>Qf: </b>{y}`
       };
     });
   };
 
   calculaDataPointsLogaritmoComLabel = MateriaisCeramicosDuplicados => {
     return _.map(MateriaisCeramicosDuplicados, material => {
-      if (material.FatorQualidade) {
-        return {
-          x: Math.log(material.ConstanteDieletrica),
-          y: Math.log(material.FatorQualidade),
-          toolTipContent: `<b>Material: </b> ${
-            material.Material
-          } <br/><b>εr: </b>{x}<br/><b>Qf: </b>{y}`
-        };
-      } else {
-        return {
-          x: 0,
-          y: 0,
-          toolTipContent: `<b>Material: </b> ${
-            material.Material
-          } <br/><b>εr: </b>${material.ConstanteDieletrica}<br/><b>Qf: </b>{y}`
-        };
-      }
+      return {
+        x: Math.log(material.ConstanteDieletrica),
+        y: material.FatorQualidade ? Math.log(material.FatorQualidade) : 0,
+        toolTipContent: `
+        <b>Id: </b> ${material.Id} <br/>
+        <b>Material: </b> ${material.Material} <br/>
+        <b>εr: </b>{x}<br/>
+        <b>Qf: </b>{y}`
+      };
     });
   };
 
@@ -57,7 +51,6 @@ class App extends Component {
       },
       axisY: {
         title: tituloY,
-        includeZero: false,
         crosshair: {
           enabled: true,
           snapToDataPoint: true
@@ -66,7 +59,7 @@ class App extends Component {
       data: [
         {
           type: 'scatter',
-          markerSize: 10,
+          markerSize: 15,
           dataPoints: listaMateriais
         }
       ]
