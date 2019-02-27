@@ -3406,7 +3406,7 @@ export const MateriaisCeramicosDuplicados =
       FrequenciaMedicao: 10,
       VariacaoTemperaturaFrequenciaRessonante: -20,
       Referencia: 163,
-      Elementos: "C,A,S,T,Ca,O,Al,Si,Ti,B"
+      Elementos: "Ca,O,Al,Si,Ti,B"
     },
     {
       Id: 285,
@@ -3970,7 +3970,7 @@ export const MateriaisCeramicosDuplicados =
       FrequenciaMedicao: null,
       VariacaoTemperaturaFrequenciaRessonante: -74,
       Referencia: 187,
-      Elementos: "Mg,Al,O,S,P"
+      Elementos: "Mg,Al,O"
     },
     {
       Id: 332,
@@ -6250,7 +6250,7 @@ export const MateriaisCeramicosDuplicados =
       FrequenciaMedicao: 10,
       VariacaoTemperaturaFrequenciaRessonante: -15,
       Referencia: 163,
-      Elementos: "C,A,S,T,Ca,O,Al,Si,Ti,B"
+      Elementos: "Ca,O,Al,Si,Ti,B"
     },
     {
       Id: 522,
@@ -6910,7 +6910,7 @@ export const MateriaisCeramicosDuplicados =
       FrequenciaMedicao: 10,
       VariacaoTemperaturaFrequenciaRessonante: -20,
       Referencia: 163,
-      Elementos: "C,A,S,T,B,Ca,O,Al,Si,Ti"
+      Elementos: "Ca,O,Al,Si,Ti"
     },
     {
       Id: 577,
@@ -14234,7 +14234,7 @@ export const MateriaisCeramicosDuplicados =
     },
     {
       Id: 1187,
-      Material: "Mg1+?T iO3+? (?=0.02)",
+      Material: "Mg1+?TiO3+? (?=0.02)",
       TemperaturaSintetizacao: 1400,
       EstruturaCristalina: "Ilmenite Hexagonal R-3",
       ConstanteDieletrica: 18.3,
@@ -14242,7 +14242,7 @@ export const MateriaisCeramicosDuplicados =
       FrequenciaMedicao: null,
       VariacaoTemperaturaFrequenciaRessonante: -50,
       Referencia: 536,
-      Elementos: "Mg,T,O"
+      Elementos: "Mg,Ti,O"
     },
     {
       Id: 1188,
@@ -33850,7 +33850,7 @@ export const MateriaisCeramicosDuplicados =
       FrequenciaMedicao: 5.9,
       VariacaoTemperaturaFrequenciaRessonante: -29,
       Referencia: 1210,
-      Elementos: "Ba,La,Sn,Nb,O,A,B"
+      Elementos: "Ba,La,Sn,Nb,O"
     },
     {
       Id: 2822,
@@ -36142,7 +36142,7 @@ export const MateriaisCeramicosDuplicados =
       FrequenciaMedicao: 5.85,
       VariacaoTemperaturaFrequenciaRessonante: -8,
       Referencia: 1297,
-      Elementos: "Ba,La,Ti,Nb,O,A,B"
+      Elementos: "Ba,La,Ti,Nb,O"
     },
     {
       Id: 3013,
@@ -40102,7 +40102,7 @@ export const MateriaisCeramicosDuplicados =
       FrequenciaMedicao: 4.47,
       VariacaoTemperaturaFrequenciaRessonante: 93,
       Referencia: 1210,
-      Elementos: "Ba,La,Ti,Nb,O,A,B"
+      Elementos: "Ba,La,Ti,Nb,O"
     },
     {
       Id: 3343,
@@ -44746,7 +44746,7 @@ export const MateriaisCeramicosDuplicados =
       FrequenciaMedicao: 5,
       VariacaoTemperaturaFrequenciaRessonante: -17,
       Referencia: 1562,
-      Elementos: "Ba,Sm,Ti,O,S,P"
+      Elementos: "Ba,Sm,Ti,O"
     },
     {
       Id: 3730,
