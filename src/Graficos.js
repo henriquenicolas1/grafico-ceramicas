@@ -80,7 +80,7 @@ class Graficos extends Component {
   obterOpcoesGrafico = (listaMateriais, titulo, tituloX, tituloY) => {
     return {
       theme: 'dark2',
-      height: 800,
+      height: 600,
       animationEnabled: true,
       zoomEnabled: true,
       title: {
