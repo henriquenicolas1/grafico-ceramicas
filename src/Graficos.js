@@ -113,8 +113,16 @@ class Graficos extends Component {
     };
   };
 
+  shouldComponentUpdate = (nextProps, nextState) => {
+    if (nextProps.elementosSelecionados !== this.props.elementosSelecionados) {
+      return true;
+    }
+    return false;
+  };
+
   render() {
     const { classes, elementosSelecionados } = this.props;
+    console.log('renderizou o mapa');
     const materiais = this.calculaDataPoints(
       MateriaisCeramicosDuplicados,
       elementosSelecionados,
