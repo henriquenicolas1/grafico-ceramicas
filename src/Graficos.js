@@ -67,14 +67,14 @@ class Graficos extends Component {
   imprimeValores = MateriaisCeramicosDuplicados => {
     let arrayFinal = [];
     _.forEach(MateriaisCeramicosDuplicados, function(material) {
-      let arrayMateriais = material.Elementos.split(',');
+      let arrayMateriais = material.Compostos.split(',');
       let arrayIntermediario = arrayFinal.concat(arrayMateriais);
       arrayFinal = _.uniqWith(arrayIntermediario, _.isEqual);
     });
-
-    _.map(arrayFinal, item => {
-      console.log(item);
-    });
+    //console.log(JSON.stringify(arrayFinal));
+    // _.map(arrayFinal, item => {
+    //   console.log(item);
+    // });
   };
 
   obterOpcoesGrafico = (listaMateriais, titulo, tituloX, tituloY) => {
