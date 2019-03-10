@@ -45202,7 +45202,7 @@ export const MateriaisCeramicosDuplicados = [
   },
   {
     Id: 3478,
-    Material: "X(Ba4Nd9.33Ti18O54)-(1-x)BaLa4Ti4O15(x=0.75)+Bi2O3-B2O3-ZnO-SiO2 glass",
+    Material: "x(Ba4Nd9.33Ti18O54)-(1-x)BaLa4Ti4O15(x=0.75)+Bi2O3-B2O3-ZnO-SiO2 glass",
     TemperaturaSintetizacao: 1140,
     EstruturaCristalina: "Composite",
     ConstanteDieletrica: 61,
@@ -45210,8 +45210,8 @@ export const MateriaisCeramicosDuplicados = [
     FrequenciaMedicao: null,
     VariacaoTemperaturaFrequenciaRessonante: 38,
     Referencia: 1466,
-    Elementos: "X,Ba,Nd,Ti,O,La,Bi,B,Zn,Si",
-    Compostos: "X,Ba4,Nd9,Ti18,O54,Ba,La4,Ti4,O15,Bi2,O3,B2,O3,Zn,O,Si,O2"
+    Elementos: "Ba,Nd,Ti,O,La,Bi,B,Zn,Si",
+    Compostos: "Ba4,Nd9,Ti18,O54,Ba,La4,Ti4,O15,Bi2,O3,B2,O3,Zn,O,Si,O2"
   },
   {
     Id: 3479,

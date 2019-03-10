@@ -72,9 +72,9 @@ class Graficos extends Component {
       arrayFinal = _.uniqWith(arrayIntermediario, _.isEqual);
     });
 
-    // _.map(arrayFinal, item => {
-    //   console.log(item);
-    // });
+    _.map(arrayFinal, item => {
+      console.log(item);
+    });
   };
 
   obterOpcoesGrafico = (listaMateriais, titulo, tituloX, tituloY) => {

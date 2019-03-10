@@ -70,6 +70,5 @@ export const ListaElementos = [
   'Sc',
   'E',
   'Be',
-  'X',
   'Ph'
 ];
