@@ -10,7 +10,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import _ from 'lodash';
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-
+//TODO verificar o componentShouldUpdate -> lentidão ao abrir o menu lateral
 class Graficos extends Component {
   constructor(props) {
     super(props);
