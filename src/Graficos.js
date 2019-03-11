@@ -10,7 +10,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import _ from 'lodash';
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-//TODO verificar o componentShouldUpdate -> lentidão ao abrir o menu lateral
+//TODO verificar comportamento do filtro. Como ele funciona como um `OU` os filtros talvez não deveriam ter relação entre si
 class Graficos extends Component {
   constructor(props) {
     super(props);
@@ -20,16 +20,25 @@ class Graficos extends Component {
   calculaDataPoints = (
     MateriaisCeramicosDuplicados,
     elementosSelecionados,
+    compostosSelecionados,
     tipoGrafico
   ) => {
     let listaFinal = [];
     _.forEach(MateriaisCeramicosDuplicados, function(material) {
       let listaElementosDoMaterial = material.Elementos.split(',');
+      let listaCompostosDoMaterial = material.Compostos.split(',');
       let deveRetornar = false;
       let dataPoint;
 
       for (var i = 0; i < listaElementosDoMaterial.length; i++) {
         if (elementosSelecionados[listaElementosDoMaterial[i]]) {
+          deveRetornar = true;
+          break;
+        }
+      }
+
+      for (var j = 0; j < listaCompostosDoMaterial.length; j++) {
+        if (compostosSelecionados[listaCompostosDoMaterial[j]]) {
           deveRetornar = true;
           break;
         }
@@ -114,24 +123,34 @@ class Graficos extends Component {
   };
 
   shouldComponentUpdate = (nextProps, nextState) => {
-    if (nextProps.elementosSelecionados !== this.props.elementosSelecionados) {
+    if (
+      nextProps.elementosSelecionados !== this.props.elementosSelecionados ||
+      nextProps.compostosSelecionados !== this.props.compostosSelecionados
+    ) {
       return true;
     }
     return false;
   };
 
   render() {
-    const { classes, elementosSelecionados } = this.props;
-    console.log('renderizou o mapa');
+    const {
+      classes,
+      elementosSelecionados,
+      compostosSelecionados
+    } = this.props;
+
+    console.log(compostosSelecionados);
     const materiais = this.calculaDataPoints(
       MateriaisCeramicosDuplicados,
       elementosSelecionados,
+      compostosSelecionados,
       'normal'
     );
 
     const materiaisLog = this.calculaDataPoints(
       MateriaisCeramicosDuplicados,
       elementosSelecionados,
+      compostosSelecionados,
       'logaritmo'
     );
 

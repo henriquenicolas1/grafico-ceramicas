@@ -4,13 +4,15 @@ import Graficos from './Graficos.js';
 import Button from '@material-ui/core/Button';
 import MenuLateralFiltroElementos from './MenuLateralFiltroElementos';
 import { EstadoElementosTrue } from './const/EstadoElementosTrue.js';
+import { EstadoCompostosTrue } from './const/EstadoCompostosTrue.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       left: false,
-      elementos: EstadoElementosTrue
+      elementos: EstadoElementosTrue,
+      compostos: EstadoCompostosTrue
     };
   }
 
@@ -20,24 +22,32 @@ class App extends Component {
     });
   };
 
-  handleChangeState = listaElementos => {
-    this.setState({ elementos: listaElementos });
-    this.setState({ left: false });
+  handleChangeState = (listaElementos, listaCompostos) => {
+    this.setState({
+      elementos: listaElementos,
+      compostos: listaCompostos,
+      left: false
+    });
   };
 
   render() {
     return (
       <div className='App'>
         <Button onClick={this.toggleDrawer('left', true)}>
-          Abrir filtro de elementos
+          Filtrar Gráficos
         </Button>
         <MenuLateralFiltroElementos
           toggleDrawer={this.toggleDrawer}
           open={this.state.left}
           handleChangeState={this.handleChangeState}
+          listaElementosSemAlteracao={this.state.elementos}
+          listaCompostosSemAlteracao={this.state.compostos}
         />
 
-        <Graficos elementosSelecionados={this.state.elementos} />
+        <Graficos
+          elementosSelecionados={this.state.elementos}
+          compostosSelecionados={this.state.compostos}
+        />
       </div>
     );
   }

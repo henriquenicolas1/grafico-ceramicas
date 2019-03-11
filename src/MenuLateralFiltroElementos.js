@@ -3,10 +3,19 @@ import { withStyles } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { ListaElementos } from './lib/ListaElementos';
+import { ListaCompostos } from './lib/ListaCompostos';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import { EstadoElementosTrue } from './const/EstadoElementosTrue.js';
 import { EstadoElementosFalse } from './const/EstadoElementosFalse.js';
+import { EstadoCompostosTrue } from './const/EstadoCompostosTrue';
+import { EstadoCompostosFalse } from './const/EstadoCompostosFalse';
+import Divider from '@material-ui/core/Divider';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import _ from 'lodash';
 
 const styles = theme => ({
@@ -15,6 +24,10 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing.unit
+  },
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper
   }
 });
 
@@ -22,55 +35,124 @@ export class MenuLateralFiltroElementos extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      elementos: EstadoElementosTrue
+      alteracaoSalva: false,
+      value: 0,
+      elementos: EstadoElementosTrue,
+      compostos: EstadoCompostosTrue
     };
   }
 
   handleChange = name => event => {
+    const { value } = this.state;
     let valor = event.target.checked;
-    this.setState(prevState => ({
-      elementos: {
-        ...prevState.elementos,
-        [name]: valor
-      }
-    }));
+
+    if (value === 0) {
+      this.setState(prevState => ({
+        elementos: {
+          ...prevState.elementos,
+          [name]: valor
+        }
+      }));
+    } else {
+      this.setState(prevState => ({
+        compostos: {
+          ...prevState.compostos,
+          [name]: valor
+        }
+      }));
+    }
   };
 
   selecionarTodos = () => {
-    this.setState({ elementos: EstadoElementosTrue });
+    const { value } = this.state;
+    if (value === 0) {
+      this.setState({ elementos: EstadoElementosTrue });
+    } else {
+      this.setState({ compostos: EstadoCompostosTrue });
+    }
   };
 
   deselecionarTodos = () => {
-    this.setState({ elementos: EstadoElementosFalse });
+    const { value } = this.state;
+    if (value === 0) {
+      this.setState({ elementos: EstadoElementosFalse });
+    } else {
+      this.setState({ compostos: EstadoCompostosFalse });
+    }
   };
 
   aplicarFiltro = () => {
-    this.props.handleChangeState(this.state.elementos);
+    this.setState({ alteracaoSalva: true });
+    this.props.handleChangeState(this.state.elementos, this.state.compostos);
   };
+
+  fecharFiltro = () => {
+    this.setState({
+      value: 0,
+      elementos: this.props.listaElementosSemAlteracao,
+      compostos: this.props.listaCompostosSemAlteracao
+    });
+    this.props.toggleDrawer('left', false);
+  };
+
+  renderLista = () => {
+    const { value } = this.state;
+    let listaDoFiltro = value === 0 ? ListaElementos : ListaCompostos;
+    return (
+      <div className={this.props.classes.list}>
+        <GridList cellHeight={50} cols={8}>
+          {_.map(listaDoFiltro, item => {
+            return (
+              <GridListTile key={item} style={{ marginLeft: '24px' }}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={
+                        value === 0
+                          ? this.state.elementos[item]
+                          : this.state.compostos[item]
+                      }
+                      onChange={this.handleChange(item)}
+                      value={item}
+                      color='primary'
+                    />
+                  }
+                  label={item}
+                />
+              </GridListTile>
+            );
+          })}
+        </GridList>
+      </div>
+    );
+  };
+
+  handleChangeAba = (event, value) => {
+    this.setState({ value });
+  };
+
+  //   alteraParaEstadoOriginal = () => {
+  //     const {
+  //       listaElementosSemAlteracao,
+  //       listaCompostosSemAlteracao
+  //     } = this.props;
+  //     this.setState({
+  //       value: 0,
+  //       elementos: listaElementosSemAlteracao,
+  //       compostos: listaCompostosSemAlteracao
+  //     });
+  //   };
+
+  //   componentWillUnmount = () => {
+  //     console.log('chegou aqui mesmo');
+  //     if (!this.state.alteracaoSalva) {
+  //       this.alteraParaEstadoOriginal();
+  //     }
+  //   };
 
   render() {
     const { classes, open } = this.props;
-
-    const sideList = (
-      <div className={classes.list}>
-        {_.map(ListaElementos, elemento => {
-          return (
-            <FormControlLabel
-              key={elemento}
-              control={
-                <Checkbox
-                  checked={this.state.elementos[elemento]}
-                  onChange={this.handleChange(elemento)}
-                  value={elemento}
-                  color='primary'
-                />
-              }
-              label={elemento}
-            />
-          );
-        })}
-      </div>
-    );
+    const { value } = this.state;
 
     return (
       <Drawer open={open} onClose={this.props.toggleDrawer('left', false)}>
@@ -79,39 +161,47 @@ export class MenuLateralFiltroElementos extends Component {
           role='button'
           onKeyDown={this.props.toggleDrawer('left', false)}
         >
-          <div>
-            <Button
-              variant='outlined'
-              className={classes.button}
-              onClick={this.selecionarTodos}
-            >
-              Selecionar todos
-            </Button>
-            <Button
-              variant='outlined'
-              className={classes.button}
-              onClick={this.deselecionarTodos}
-            >
-              Desmarcar todos
-            </Button>
-            <Button
-              variant='outlined'
-              color='primary'
-              className={classes.button}
-              onClick={this.aplicarFiltro}
-            >
-              Aplicar
-            </Button>
-            <Button
-              variant='outlined'
-              color='secondary'
-              className={classes.button}
-              onClick={this.props.toggleDrawer('left', false)}
-            >
-              Cancelar
-            </Button>
-          </div>
-          {sideList}
+          <Button
+            variant='outlined'
+            className={classes.button}
+            onClick={this.selecionarTodos}
+          >
+            Selecionar todos
+          </Button>
+          <Button
+            variant='outlined'
+            className={classes.button}
+            onClick={this.deselecionarTodos}
+          >
+            Desmarcar todos
+          </Button>
+          <Button
+            variant='outlined'
+            color='primary'
+            className={classes.button}
+            onClick={this.aplicarFiltro}
+          >
+            Aplicar
+          </Button>
+          <Button
+            variant='outlined'
+            color='secondary'
+            className={classes.button}
+            onClick={this.props.toggleDrawer('left', false)}
+          >
+            Cancelar
+          </Button>
+        </div>
+        <Divider />
+        <div className={classes.root}>
+          <AppBar position='static'>
+            <Tabs value={value} onChange={this.handleChangeAba}>
+              <Tab label='Filtro por elemento' />
+              <Tab label='Filtro por composto' />
+            </Tabs>
+          </AppBar>
+          {value === 0 && this.renderLista()}
+          {value === 1 && this.renderLista()}
         </div>
       </Drawer>
     );
