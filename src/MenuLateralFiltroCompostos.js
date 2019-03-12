@@ -11,7 +11,8 @@ import Divider from '@material-ui/core/Divider';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
+import Typography from '@material-ui/core/Typography';
+
 import _ from 'lodash';
 
 const styles = theme => ({
@@ -62,10 +63,7 @@ export class MenuLateralFiltroCompostos extends Component {
   };
 
   aplicarFiltro = () => {
-    this.props.handleChangeState(
-      this.state.compostos,
-      this.state.tipoFiltroLogico
-    );
+    this.props.handleChangeState(this.state.compostos, this.state.tipoFiltroLogico);
   };
 
   renderLista = () => {
@@ -81,7 +79,7 @@ export class MenuLateralFiltroCompostos extends Component {
                       checked={this.state.compostos[item]}
                       onChange={this.handleChangeCheckbox(item)}
                       value={item}
-                      color='primary'
+                      color="primary"
                     />
                   }
                   label={item}
@@ -98,40 +96,38 @@ export class MenuLateralFiltroCompostos extends Component {
     const { classes, open } = this.props;
 
     return (
-      <Drawer
-        open={open}
-        onClose={this.props.toggleDrawer('filtroComposto', false)}
-      >
+      <Drawer open={open} onClose={this.props.toggleDrawer('filtroComposto', false)}>
         <div
           tabIndex={0}
-          role='button'
+          role="button"
           onKeyDown={this.props.toggleDrawer('filtroComposto', false)}
         >
-          <Button
-            variant='outlined'
-            className={classes.button}
-            onClick={this.selecionarTodos}
+          <Divider />
+          <Typography
+            style={{ marginTop: '10px', marginBottom: '10px', textAlign: 'center' }}
+            variant="h5"
+            gutterBottom
           >
+            Filtro Compostos
+          </Typography>
+          <Divider />
+          <Button variant="outlined" className={classes.button} onClick={this.selecionarTodos}>
             Selecionar todos
           </Button>
-          <Button
-            variant='outlined'
-            className={classes.button}
-            onClick={this.deselecionarTodos}
-          >
+          <Button variant="outlined" className={classes.button} onClick={this.deselecionarTodos}>
             Desmarcar todos
           </Button>
           <Button
-            variant='outlined'
-            color='primary'
+            variant="outlined"
+            color="primary"
             className={classes.button}
             onClick={this.aplicarFiltro}
           >
             Aplicar
           </Button>
           <Button
-            variant='outlined'
-            color='secondary'
+            variant="outlined"
+            color="secondary"
             className={classes.button}
             onClick={this.props.toggleDrawer('filtroComposto', false)}
           >
@@ -139,25 +135,23 @@ export class MenuLateralFiltroCompostos extends Component {
           </Button>
         </div>
         <Divider />
-        <div style={{ heigth: '150px' }}>
-          <RadioGroup
-            aria-label='Tipo de Filtro'
-            name='filtro1'
-            className={classes.group}
-            value={this.state.tipoFiltroLogico}
+        <div style={{ heigth: '150px', marginLeft: '80px' }}>
+          <FormControlLabel
+            style={{ marginLeft: '32px' }}
+            value="filtroOU"
+            checked={this.state.tipoFiltroLogico === 'filtroOU'}
             onChange={this.handleChangeTipoFiltro}
-          >
-            <FormControlLabel
-              value='filtroOU'
-              control={<Radio color='primary' />}
-              label='Filtro Lógica OU'
-            />
-            <FormControlLabel
-              value='filtroE'
-              control={<Radio color='primary' />}
-              label='Filtro Lógica E'
-            />
-          </RadioGroup>
+            control={<Radio color="primary" />}
+            label="Filtro Lógica OU"
+          />
+          <FormControlLabel
+            style={{ marginLeft: '32px' }}
+            value="filtroE"
+            checked={this.state.tipoFiltroLogico === 'filtroE'}
+            onChange={this.handleChangeTipoFiltro}
+            control={<Radio color="primary" />}
+            label="Filtro Lógica E"
+          />
         </div>
         <Divider />
         <div className={classes.root}>{this.renderLista()}</div>

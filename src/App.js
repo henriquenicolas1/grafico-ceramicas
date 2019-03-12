@@ -46,11 +46,19 @@ class App extends Component {
 
   render() {
     return (
-      <div className='App'>
-        <Button onClick={this.toggleDrawer('filtroElemento', true)}>
+      <div className="App">
+        <Button
+          style={{ margin: '10px' }}
+          variant="contained"
+          onClick={this.toggleDrawer('filtroElemento', true)}
+        >
           Filtrar Gráficos por Elemento
         </Button>
-        <Button onClick={this.toggleDrawer('filtroComposto', true)}>
+        <Button
+          style={{ margin: '10px' }}
+          variant="contained"
+          onClick={this.toggleDrawer('filtroComposto', true)}
+        >
           Filtrar Gráficos por Compostos
         </Button>
         <MenuLateralFiltroElementos

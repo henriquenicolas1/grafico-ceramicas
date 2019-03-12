@@ -10,7 +10,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import _ from 'lodash';
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-//TODO verificar comportamento do filtro. Como ele funciona como um `OU` os filtros talvez não deveriam ter relação entre si
 class Graficos extends Component {
   verificaSeIncluiMaterialLogicaE = (listaSelecionados, listaDoMaterial) => {
     if (listaSelecionados.length > listaDoMaterial.length) return false;
@@ -66,14 +65,8 @@ class Graficos extends Component {
 
       let deveRetornarMaterial =
         tipoFiltroLogico === 'filtroOU'
-          ? self.verificaSeIncluiMaterialLogicaOu(
-              listaSelecionados,
-              listaDoMaterial
-            )
-          : self.verificaSeIncluiMaterialLogicaE(
-              listaSelecionados,
-              listaDoMaterial
-            );
+          ? self.verificaSeIncluiMaterialLogicaOu(listaSelecionados, listaDoMaterial)
+          : self.verificaSeIncluiMaterialLogicaE(listaSelecionados, listaDoMaterial);
 
       let dataPoint;
 
@@ -126,7 +119,7 @@ class Graficos extends Component {
   obterOpcoesGrafico = (listaMateriais, titulo, tituloX, tituloY) => {
     return {
       theme: 'dark2',
-      height: 600,
+      height: 520,
       animationEnabled: true,
       zoomEnabled: true,
       title: {
@@ -202,7 +195,7 @@ class Graficos extends Component {
       <div className={classes.root}>
         <ExpansionPanel defaultExpanded={true}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Gráfico 1</Typography>
+            <Typography className={classes.heading}>Gráfico Normal</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <CanvasJSChart
@@ -217,7 +210,7 @@ class Graficos extends Component {
         </ExpansionPanel>
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Gráfico 2</Typography>
+            <Typography className={classes.heading}>Gráfico Logaritmo</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <CanvasJSChart
