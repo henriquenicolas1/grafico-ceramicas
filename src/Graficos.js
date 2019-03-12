@@ -12,39 +12,72 @@ import _ from 'lodash';
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 //TODO verificar comportamento do filtro. Como ele funciona como um `OU` os filtros talvez não deveriam ter relação entre si
 class Graficos extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { Al: true };
-  }
+  verificaSeIncluiMaterialLogicaE = (listaSelecionados, listaDoMaterial) => {
+    if (listaSelecionados.length > listaDoMaterial.length) return false;
+
+    for (var i = 0; i < listaSelecionados.length; i++) {
+      if (!listaDoMaterial.includes(listaSelecionados[i])) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  verificaSeIncluiMaterialLogicaOu = (listaSelecionados, listaDoMaterial) => {
+    for (var i = 0; i < listaSelecionados.length; i++) {
+      if (listaDoMaterial.includes(listaSelecionados[i])) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  obterListaSelecionados = objetoSelecionados => {
+    let listaSelecionados = [];
+
+    for (var chave in objetoSelecionados) {
+      if (objetoSelecionados[chave]) {
+        listaSelecionados.push(chave);
+      }
+    }
+    return listaSelecionados;
+  };
 
   calculaDataPoints = (
     MateriaisCeramicosDuplicados,
     elementosSelecionados,
     compostosSelecionados,
+    tipoFiltroCategoria,
+    tipoFiltroLogico,
     tipoGrafico
   ) => {
     let listaFinal = [];
+    var self = this;
     _.forEach(MateriaisCeramicosDuplicados, function(material) {
-      let listaElementosDoMaterial = material.Elementos.split(',');
-      let listaCompostosDoMaterial = material.Compostos.split(',');
-      let deveRetornar = false;
+      let listaDoMaterial =
+        tipoFiltroCategoria === 'elementos'
+          ? material.Elementos.split(',')
+          : material.Compostos.split(',');
+
+      let listaSelecionados =
+        tipoFiltroCategoria === 'elementos'
+          ? self.obterListaSelecionados(elementosSelecionados)
+          : self.obterListaSelecionados(compostosSelecionados);
+
+      let deveRetornarMaterial =
+        tipoFiltroLogico === 'filtroOU'
+          ? self.verificaSeIncluiMaterialLogicaOu(
+              listaSelecionados,
+              listaDoMaterial
+            )
+          : self.verificaSeIncluiMaterialLogicaE(
+              listaSelecionados,
+              listaDoMaterial
+            );
+
       let dataPoint;
 
-      for (var i = 0; i < listaElementosDoMaterial.length; i++) {
-        if (elementosSelecionados[listaElementosDoMaterial[i]]) {
-          deveRetornar = true;
-          break;
-        }
-      }
-
-      for (var j = 0; j < listaCompostosDoMaterial.length; j++) {
-        if (compostosSelecionados[listaCompostosDoMaterial[j]]) {
-          deveRetornar = true;
-          break;
-        }
-      }
-
-      if (deveRetornar) {
+      if (deveRetornarMaterial) {
         if (tipoGrafico === 'normal') {
           dataPoint = {
             x: material.ConstanteDieletrica,
@@ -53,7 +86,9 @@ class Graficos extends Component {
                     <b>Id: </b> ${material.Id} <br/>
                     <b>Material: </b> ${material.Material} <br/>
                     <b>εr: </b>{x}<br/>
-                    <b>Qf: </b>{y}`
+                    <b>Qf: </b>{y}<br/>
+                    <b>Elementos: </b>${material.Elementos}<br/>
+                    <b>Compostos: </b>${material.Compostos}`
           };
         } else {
           dataPoint = {
@@ -63,7 +98,9 @@ class Graficos extends Component {
                   <b>Id: </b> ${material.Id} <br/>
                   <b>Material: </b> ${material.Material} <br/>
                   <b>εr: </b>{x}<br/>
-                  <b>Qf: </b>{y}`
+                  <b>Qf: </b>{y}
+                  <b>Elementos: </b>${material.Elementos}<br/>
+                  <b>Compostos: </b>${material.Compostos}`
           };
         }
 
@@ -122,10 +159,12 @@ class Graficos extends Component {
     };
   };
 
-  shouldComponentUpdate = (nextProps, nextState) => {
+  shouldComponentUpdate = nextProps => {
     if (
       nextProps.elementosSelecionados !== this.props.elementosSelecionados ||
-      nextProps.compostosSelecionados !== this.props.compostosSelecionados
+      nextProps.compostosSelecionados !== this.props.compostosSelecionados ||
+      nextProps.tipoFiltroCategoria !== this.props.tipoFiltroCategoria ||
+      nextProps.tipoFiltroLogico !== this.props.tipoFiltroLogico
     ) {
       return true;
     }
@@ -136,14 +175,17 @@ class Graficos extends Component {
     const {
       classes,
       elementosSelecionados,
-      compostosSelecionados
+      compostosSelecionados,
+      tipoFiltroCategoria,
+      tipoFiltroLogico
     } = this.props;
 
-    console.log(compostosSelecionados);
     const materiais = this.calculaDataPoints(
       MateriaisCeramicosDuplicados,
       elementosSelecionados,
       compostosSelecionados,
+      tipoFiltroCategoria,
+      tipoFiltroLogico,
       'normal'
     );
 
@@ -151,6 +193,8 @@ class Graficos extends Component {
       MateriaisCeramicosDuplicados,
       elementosSelecionados,
       compostosSelecionados,
+      tipoFiltroCategoria,
+      tipoFiltroLogico,
       'logaritmo'
     );
 

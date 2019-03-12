@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import { ListaElementos } from './lib/ListaElementos';
+import { ListaCompostos } from './lib/ListaCompostos';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
-import { EstadoElementosTrue } from './const/EstadoElementosTrue.js';
-import { EstadoElementosFalse } from './const/EstadoElementosFalse.js';
+import { EstadoCompostosTrue } from './const/EstadoCompostosTrue';
+import { EstadoCompostosFalse } from './const/EstadoCompostosFalse';
 import Divider from '@material-ui/core/Divider';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -30,21 +30,20 @@ const styles = theme => ({
   }
 });
 
-export class MenuLateralFiltroElementos extends Component {
+export class MenuLateralFiltroCompostos extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      elementos: EstadoElementosTrue,
+      compostos: EstadoCompostosTrue,
       tipoFiltroLogico: 'filtroOU'
     };
   }
 
   handleChangeCheckbox = name => event => {
     let valor = event.target.checked;
-
     this.setState(prevState => ({
-      elementos: {
-        ...prevState.elementos,
+      compostos: {
+        ...prevState.compostos,
         [name]: valor
       }
     }));
@@ -55,16 +54,16 @@ export class MenuLateralFiltroElementos extends Component {
   };
 
   selecionarTodos = () => {
-    this.setState({ elementos: EstadoElementosTrue });
+    this.setState({ compostos: EstadoCompostosTrue });
   };
 
   deselecionarTodos = () => {
-    this.setState({ elementos: EstadoElementosFalse });
+    this.setState({ compostos: EstadoCompostosFalse });
   };
 
   aplicarFiltro = () => {
     this.props.handleChangeState(
-      this.state.elementos,
+      this.state.compostos,
       this.state.tipoFiltroLogico
     );
   };
@@ -73,13 +72,13 @@ export class MenuLateralFiltroElementos extends Component {
     return (
       <div className={this.props.classes.list}>
         <GridList cellHeight={50} cols={8}>
-          {_.map(ListaElementos, item => {
+          {_.map(ListaCompostos, item => {
             return (
               <GridListTile key={item} style={{ marginLeft: '24px' }}>
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={this.state.elementos[item]}
+                      checked={this.state.compostos[item]}
                       onChange={this.handleChangeCheckbox(item)}
                       value={item}
                       color='primary'
@@ -101,12 +100,12 @@ export class MenuLateralFiltroElementos extends Component {
     return (
       <Drawer
         open={open}
-        onClose={this.props.toggleDrawer('filtroElemento', false)}
+        onClose={this.props.toggleDrawer('filtroComposto', false)}
       >
         <div
           tabIndex={0}
           role='button'
-          onKeyDown={this.props.toggleDrawer('filtroElemento', false)}
+          onKeyDown={this.props.toggleDrawer('filtroComposto', false)}
         >
           <Button
             variant='outlined'
@@ -134,7 +133,7 @@ export class MenuLateralFiltroElementos extends Component {
             variant='outlined'
             color='secondary'
             className={classes.button}
-            onClick={this.props.toggleDrawer('filtroElemento', false)}
+            onClick={this.props.toggleDrawer('filtroComposto', false)}
           >
             Cancelar
           </Button>
@@ -167,4 +166,4 @@ export class MenuLateralFiltroElementos extends Component {
   }
 }
 
-export default withStyles(styles)(MenuLateralFiltroElementos);
+export default withStyles(styles)(MenuLateralFiltroCompostos);
