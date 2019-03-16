@@ -8,6 +8,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import _ from 'lodash';
+const pf = require('pareto-frontier');
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 class Graficos extends Component {
@@ -65,8 +66,14 @@ class Graficos extends Component {
 
       let deveRetornarMaterial =
         tipoFiltroLogico === 'filtroOU'
-          ? self.verificaSeIncluiMaterialLogicaOu(listaSelecionados, listaDoMaterial)
-          : self.verificaSeIncluiMaterialLogicaE(listaSelecionados, listaDoMaterial);
+          ? self.verificaSeIncluiMaterialLogicaOu(
+              listaSelecionados,
+              listaDoMaterial
+            )
+          : self.verificaSeIncluiMaterialLogicaE(
+              listaSelecionados,
+              listaDoMaterial
+            );
 
       let dataPoint;
 
@@ -152,6 +159,74 @@ class Graficos extends Component {
     };
   };
 
+  obterMateriaisFormatoEntradaFrenteDePareto = materiais => {
+    let lista = [];
+    _.forEach(materiais, function(material) {
+      let listaInterna = [material.x, material.y];
+      lista.push(listaInterna);
+    });
+    return lista;
+  };
+
+  obterListaEmFormatoString = listaPontos => {
+    let lista = [];
+    _.forEach(listaPontos, function(ponto) {
+      let valor = ponto[0].toString() + ';' + ponto[1].toString();
+      lista.push(valor);
+    });
+    return lista;
+  };
+
+  obterIndexFrentePareto = (
+    listaDePontosDosMateriaisString,
+    listaDePontosResultadoFrenteParetoString
+  ) => {
+    let lista = [];
+    _.forEach(listaDePontosResultadoFrenteParetoString, function(ponto) {
+      let index = listaDePontosDosMateriaisString.indexOf(ponto);
+      lista.push(index);
+    });
+    return lista;
+  };
+
+  calculaDataPointsFrentePareto = (
+    listaDeMateriais,
+    listaIndexDoResultadoFrentePareto
+  ) => {
+    let lista = [];
+    let indexLoop = 0;
+    let novoDataPoint = {
+      x: null,
+      y: null,
+      toolTipContent: null,
+      color: null,
+      markerSize: null
+    };
+    _.forEach(listaDeMateriais, function(dataPoint) {
+      if (listaIndexDoResultadoFrentePareto.includes(indexLoop)) {
+        novoDataPoint = {
+          x: dataPoint.x,
+          y: dataPoint.y,
+          toolTipContent: dataPoint.toolTipContent,
+          markerSize: 17,
+          color: 'red'
+        };
+      } else {
+        novoDataPoint = {
+          x: dataPoint.x,
+          y: dataPoint.y,
+          toolTipContent: dataPoint.toolTipContent,
+          markerSize: 5,
+          color: 'blue'
+        };
+      }
+
+      lista.push(novoDataPoint);
+      indexLoop++;
+    });
+    return lista;
+  };
+
   shouldComponentUpdate = nextProps => {
     if (
       nextProps.elementosSelecionados !== this.props.elementosSelecionados ||
@@ -191,6 +266,31 @@ class Graficos extends Component {
       'logaritmo'
     );
 
+    const materiaisEmFormatoDeEntradaFrenteDePareto = this.obterMateriaisFormatoEntradaFrenteDePareto(
+      materiais
+    );
+
+    const resultadoMateriaisFrenteDePareto = pf.getParetoFrontier(
+      materiaisEmFormatoDeEntradaFrenteDePareto
+    );
+
+    const listaDePontosDosMateriaisString = this.obterListaEmFormatoString(
+      materiaisEmFormatoDeEntradaFrenteDePareto
+    );
+    const listaDePontosResultadoFrenteParetoString = this.obterListaEmFormatoString(
+      resultadoMateriaisFrenteDePareto
+    );
+
+    const listaIndexDoResultadoFrentePareto = this.obterIndexFrentePareto(
+      listaDePontosDosMateriaisString,
+      listaDePontosResultadoFrenteParetoString
+    );
+
+    const materiaisResultadoFrentePareto = this.calculaDataPointsFrentePareto(
+      materiais,
+      listaIndexDoResultadoFrentePareto
+    );
+
     return (
       <div className={classes.root}>
         <ExpansionPanel defaultExpanded={true}>
@@ -203,14 +303,33 @@ class Graficos extends Component {
                 materiais,
                 'Fator de Qualidade - Qf (GHz) vs Constante Dielétrica - εr',
                 'Constante Dielétrica',
-                'Fator de Qualidade (GHz)'
+                'Fator de Qualidade (Q*GHz)'
               )}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Gráfico Logaritmo</Typography>
+            <Typography className={classes.heading}>
+              Gráfico Frente de Pareto
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <CanvasJSChart
+              options={this.obterOpcoesGrafico(
+                materiaisResultadoFrentePareto,
+                'Fator de Qualidade - Qf (GHz) vs Constante Dielétrica - εr',
+                'Constante Dielétrica',
+                'Fator de Qualidade (Q*GHz)'
+              )}
+            />
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+        <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography className={classes.heading}>
+              Gráfico Logaritmo
+            </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <CanvasJSChart
