@@ -293,6 +293,9 @@ class Graficos extends Component {
 
     return (
       <div className={classes.root}>
+        <Typography variant='h6' gutterBottom>
+          Total de materiais: {materiais.length}
+        </Typography>
         <ExpansionPanel defaultExpanded={true}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}>Gráfico Normal</Typography>
