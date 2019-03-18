@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { MateriaisCeramicosDuplicados } from './lib/MateriaisCeramicosDuplicados.js';
+import _ from 'lodash';
 
 const styles = theme => ({
   root: {
@@ -17,6 +18,16 @@ const styles = theme => ({
   }
 });
 
+const formataString = string => {
+  let texto = '';
+  let lista = string.split(',');
+  _.forEach(lista, function(value) {
+    texto = texto + value.toString() + '; ';
+  });
+  return texto;
+};
+
+//Transformar em componente e colocar o loading
 function TabelaCeramicas(props) {
   const { classes } = props;
 
@@ -24,8 +35,8 @@ function TabelaCeramicas(props) {
     <Paper className={classes.root}>
       <Table>
         <colgroup>
-          <col style={{ width: '10%' }} />
           <col style={{ width: '9%' }} />
+          <col style={{ width: '10%' }} />
           <col style={{ width: '9%' }} />
           <col style={{ width: '9%' }} />
           <col style={{ width: '9%' }} />
@@ -67,8 +78,8 @@ function TabelaCeramicas(props) {
                 {material.VariacaoTemperaturaFrequenciaRessonante}
               </TableCell>
               <TableCell>{material.Referencia}</TableCell>
-              <TableCell>{material.Elementos}</TableCell>
-              <TableCell>{material.Compostos} </TableCell>
+              <TableCell>{formataString(material.Elementos)}</TableCell>
+              <TableCell>{formataString(material.Compostos)} </TableCell>
             </TableRow>
           ))}
         </TableBody>
