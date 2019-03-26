@@ -425,8 +425,8 @@ export const MateriaisCeramicosDuplicados = [
     FrequenciaMedicao: 8,
     VariacaoTemperaturaFrequenciaRessonante: null,
     Referencia: 19,
-    Elementos: "Li,Mg,Si,O,L,M,Zn,B",
-    Compostos: "Li2,Mg,Si,O4,L,M,Zn,O,B2,O3,Si,O2"
+    Elementos: "Li,Mg,Si,O,Zn,B",
+    Compostos: "Li2,Mg,Si,O4,Zn,O,B2,O3,Si,O2"
   },
   {
     Id: 34,
@@ -1595,8 +1595,8 @@ export const MateriaisCeramicosDuplicados = [
     FrequenciaMedicao: null,
     VariacaoTemperaturaFrequenciaRessonante: -50,
     Referencia: 64,
-    Elementos: "Mg,B,O,L,M,S",
-    Compostos: "Mg3,B3,O6,L,M,B,S"
+    Elementos: "Mg,B,O",
+    Compostos: "Mg3,B3,O6,B2"
   },
   {
     Id: 124,
@@ -2441,7 +2441,7 @@ export const MateriaisCeramicosDuplicados = [
     VariacaoTemperaturaFrequenciaRessonante: 6,
     Referencia: 114,
     Elementos: "Mg,Ti,O,Ca,Zn,B,Si",
-    Compostos: "Mg,Ti,O3,Ca,Ti,O3,Zn,O,B2,O3,Si,O235"
+    Compostos: "Mg,Ti,O3,Ca,Ti,O3,Zn,O,B2,O3,Si,O2"
   },
   {
     Id: 189,
@@ -2934,8 +2934,8 @@ export const MateriaisCeramicosDuplicados = [
     FrequenciaMedicao: null,
     VariacaoTemperaturaFrequenciaRessonante: -123,
     Referencia: 132,
-    Elementos: "Li,Zn,V,O,Us",
-    Compostos: "Li,Zn,V,O4,Us,V2,O5"
+    Elementos: "Li,Zn,V,O",
+    Compostos: "Li,Zn,V,O4,V2,O5"
   },
   {
     Id: 227,
@@ -3116,8 +3116,8 @@ export const MateriaisCeramicosDuplicados = [
     FrequenciaMedicao: null,
     VariacaoTemperaturaFrequenciaRessonante: -114,
     Referencia: 132,
-    Elementos: "Li,Zn,V,O,Us,N,H",
-    Compostos: "Li,Zn,V,O4,Us,N,H3,V,O3"
+    Elementos: "Li,Zn,V,O,N,H",
+    Compostos: "Li,Zn,V,O4,N,H3,V,O3"
   },
   {
     Id: 241,
@@ -3520,7 +3520,7 @@ export const MateriaisCeramicosDuplicados = [
     VariacaoTemperaturaFrequenciaRessonante: null,
     Referencia: 8,
     Elementos: "Ca,O,B,Si",
-    Compostos: "Ca,O,B2,O3,Si,O250"
+    Compostos: "Ca,O,B2,O3,Si,O2"
   },
   {
     Id: 272,
@@ -6431,8 +6431,8 @@ export const MateriaisCeramicosDuplicados = [
     FrequenciaMedicao: null,
     VariacaoTemperaturaFrequenciaRessonante: -166,
     Referencia: 132,
-    Elementos: "Li,Mg,V,O,Us",
-    Compostos: "Li,Mg,V,O4,Us,V2,O5"
+    Elementos: "Li,Mg,V,O",
+    Compostos: "Li,Mg,V,O4,V2,O5"
   },
   {
     Id: 496,
@@ -6444,8 +6444,8 @@ export const MateriaisCeramicosDuplicados = [
     FrequenciaMedicao: null,
     VariacaoTemperaturaFrequenciaRessonante: -171,
     Referencia: 132,
-    Elementos: "Li,Mg,V,O,Us,N,H",
-    Compostos: "Li,Mg,V,O4,Us,N,H3,V,O3"
+    Elementos: "Li,Mg,V,O,N,H",
+    Compostos: "Li,Mg,V,O4,N,H3,V,O3"
   },
   {
     Id: 497,
@@ -6951,8 +6951,8 @@ export const MateriaisCeramicosDuplicados = [
     FrequenciaMedicao: null,
     VariacaoTemperaturaFrequenciaRessonante: -2,
     Referencia: 281,
-    Elementos: "Vo,Li,Mg,Zn,P,O,Ba,V",
-    Compostos: "Vo,Li,Mg0,Zn0,P,O4,Ba3,V,O42"
+    Elementos: "Li,Mg,Zn,P,O,Ba,V",
+    Compostos: "Li,Mg0,Zn0,P,O4,Ba3,V,O42"
   },
   {
     Id: 536,
@@ -8420,8 +8420,8 @@ export const MateriaisCeramicosDuplicados = [
     FrequenciaMedicao: null,
     VariacaoTemperaturaFrequenciaRessonante: -58,
     Referencia: 332,
-    Elementos: "Mg,Nb,O,So",
-    Compostos: "Mg5,Nb4,O15,So"
+    Elementos: "Mg,Nb,O",
+    Compostos: "Mg5,Nb4,O15"
   },
   {
     Id: 649,
@@ -10553,7 +10553,7 @@ export const MateriaisCeramicosDuplicados = [
     VariacaoTemperaturaFrequenciaRessonante: "-",
     Referencia: 402,
     Elementos: "Mg,Ca,Ti,O,Ba,B,Si",
-    Compostos: "Mg0,Ca0,Ti,O3,Ba,O,B2,O3,Si,O250"
+    Compostos: "Mg0,Ca0,Ti,O3,Ba,O,B2,O3,Si,O2"
   },
   {
     Id: 813,
@@ -12463,8 +12463,8 @@ export const MateriaisCeramicosDuplicados = [
     FrequenciaMedicao: null,
     VariacaoTemperaturaFrequenciaRessonante: -25,
     Referencia: 438,
-    Elementos: "Ba,Mg,Ta,Wx,Ti,O",
-    Compostos: "Ba,Mg1,Ta2,Wx,Ti,O3"
+    Elementos: "Ba,Mg,Ta,W,Ti,O",
+    Compostos: "Ba,Mg1,Ta2,W,Ti,O3"
   },
   {
     Id: 960,
@@ -14635,7 +14635,7 @@ export const MateriaisCeramicosDuplicados = [
     VariacaoTemperaturaFrequenciaRessonante: -15,
     Referencia: 510,
     Elementos: "Ba,Ti,O,Li,B,Si,Ca,Al",
-    Compostos: "Ba,Ti4,O9,Li2,O,B2,O3,Si,O2,Ca,O,Al2,O328"
+    Compostos: "Ba,Ti4,O9,Li2,O,B2,O3,Si,O2,Ca,O,Al2,O3"
   },
   {
     Id: 1127,
@@ -17494,8 +17494,8 @@ export const MateriaisCeramicosDuplicados = [
     FrequenciaMedicao: null,
     VariacaoTemperaturaFrequenciaRessonante: 0,
     Referencia: 438,
-    Elementos: "Ba,Mg,Ta,Wx,Ti,O",
-    Compostos: "Ba,Mg1,Ta2,Wx,Ti,O3"
+    Elementos: "Ba,Mg,Ta,W,Ti,O",
+    Compostos: "Ba,Mg1,Ta2,W,Ti,O3"
   },
   {
     Id: 1347,
@@ -18040,8 +18040,8 @@ export const MateriaisCeramicosDuplicados = [
     FrequenciaMedicao: 5.5,
     VariacaoTemperaturaFrequenciaRessonante: null,
     Referencia: 640,
-    Elementos: "Ce,O,K",
-    Compostos: "Ce,O2,K"
+    Elementos: "Ce,O",
+    Compostos: "Ce,O2"
   },
   {
     Id: 1389,
@@ -22629,8 +22629,8 @@ export const MateriaisCeramicosDuplicados = [
     FrequenciaMedicao: null,
     VariacaoTemperaturaFrequenciaRessonante: -13,
     Referencia: 796,
-    Elementos: "Li,Zn,Ti,O,L,Z,B",
-    Compostos: "Li2,Zn,Ti3,O8,L,Z,B"
+    Elementos: "Li,Zn,Ti,O,B",
+    Compostos: "Li2,Zn,Ti3,O8,O,B2,O3"
   },
   {
     Id: 1742,
@@ -24502,7 +24502,7 @@ export const MateriaisCeramicosDuplicados = [
     VariacaoTemperaturaFrequenciaRessonante: -4,
     Referencia: 510,
     Elementos: "Ba,Ti,O,Li,B,Si,Ca,Al",
-    Compostos: "Ba,Ti4,O9,Li2,O,B2,O3,Si,O2,Ca,O,Al2,O352"
+    Compostos: "Ba,Ti4,O9,Li2,O,B2,O3,Si,O2,Ca,O,Al2,O3"
   },
   {
     Id: 1886,
@@ -24722,8 +24722,8 @@ export const MateriaisCeramicosDuplicados = [
     FrequenciaMedicao: null,
     VariacaoTemperaturaFrequenciaRessonante: -4,
     Referencia: 874,
-    Elementos: "Li,Zn,Ti,O,L,Z,B",
-    Compostos: "Li2,Zn,Ti3,O8,L,Z,B,Ti,O2"
+    Elementos: "Li,Zn,Ti,O,B",
+    Compostos: "Li2,Zn,Ti3,O8,Ti,O2,O,B2,O3"
   },
   {
     Id: 1903,
@@ -28895,8 +28895,8 @@ export const MateriaisCeramicosDuplicados = [
     FrequenciaMedicao: null,
     VariacaoTemperaturaFrequenciaRessonante: 29,
     Referencia: 1009,
-    Elementos: "Mg,Ta,O,So",
-    Compostos: "Mg,Ta2,O6,So"
+    Elementos: "Mg,Ta,O",
+    Compostos: "Mg,Ta2,O6"
   },
   {
     Id: 2224,
@@ -30391,7 +30391,7 @@ export const MateriaisCeramicosDuplicados = [
     VariacaoTemperaturaFrequenciaRessonante: 20,
     Referencia: 510,
     Elementos: "Ba,Nd,Sm,Bi,Ti,O,Li,B,Si,Ca,Al",
-    Compostos: "Ba,Nd,Sm,Bi,Ti4,O12,Li2,O,B2,O3,Si,O2,Ca,O,Al2,O328"
+    Compostos: "Ba,Nd,Sm,Bi,Ti4,O12,Li2,O,B2,O3,Si,O2,Ca,O,Al2,O3"
   },
   {
     Id: 2339,
@@ -36981,8 +36981,8 @@ export const MateriaisCeramicosDuplicados = [
     FrequenciaMedicao: null,
     VariacaoTemperaturaFrequenciaRessonante: "-",
     Referencia: 1221,
-    Elementos: "Zr,Sn,Ti,O,Z,S,T",
-    Compostos: "Zr0,Sn,Ti,O4,Z,S,T"
+    Elementos: "Zr,Sn,Ti,O",
+    Compostos: "Zr0,Sn,Ti,O4"
   },
   {
     Id: 2846,
@@ -45314,8 +45314,8 @@ export const MateriaisCeramicosDuplicados = [
     FrequenciaMedicao: "6.",
     VariacaoTemperaturaFrequenciaRessonante: -53,
     Referencia: "1399, 1400",
-    Elementos: "Li,Nb,Ti,O,M,Ph",
-    Compostos: "Li1,Nb1,Ti,O3,M,Ph"
+    Elementos: "Li,Nb,Ti,O",
+    Compostos: "Li1,Nb1,Ti,O3"
   },
   {
     Id: 3487,
@@ -46744,8 +46744,8 @@ export const MateriaisCeramicosDuplicados = [
     FrequenciaMedicao: null,
     VariacaoTemperaturaFrequenciaRessonante: 47,
     Referencia: 1511,
-    Elementos: "Ba,Nd,Ti,O,H,B,T,E,S",
-    Compostos: "Ba6,Nd8,Ti18,O54,H3,B,O3,T,E,O,S"
+    Elementos: "Ba,Nd,Ti,O,H,B,Si,C",
+    Compostos: "Ba6,Nd8,Ti18,O54,H3,B,O3,Si,C8,H20,O4"
   },
   {
     Id: 3597,
@@ -46836,7 +46836,7 @@ export const MateriaisCeramicosDuplicados = [
     VariacaoTemperaturaFrequenciaRessonante: 340,
     Referencia: 1515,
     Elementos: "Ti,O,B,Zn",
-    Compostos: "Ti,O2,B203,Zn,O"
+    Compostos: "Ti,O2,B2,O3,Zn,O"
   },
   {
     Id: 3604,
@@ -49786,8 +49786,8 @@ export const MateriaisCeramicosDuplicados = [
     FrequenciaMedicao: null,
     VariacaoTemperaturaFrequenciaRessonante: 243,
     Referencia: 1591,
-    Elementos: "Ca,Nd,Ti,O,So",
-    Compostos: "Ca0,Nd0,Ti,O3,So"
+    Elementos: "Ca,Nd,Ti,O",
+    Compostos: "Ca0,Nd0,Ti,O3"
   },
   {
     Id: 3831,

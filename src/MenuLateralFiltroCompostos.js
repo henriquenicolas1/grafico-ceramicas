@@ -17,7 +17,7 @@ import _ from 'lodash';
 
 const styles = theme => ({
   list: {
-    width: 600
+    width: 620
   },
   button: {
     margin: theme.spacing.unit
@@ -63,7 +63,10 @@ export class MenuLateralFiltroCompostos extends Component {
   };
 
   aplicarFiltro = () => {
-    this.props.handleChangeState(this.state.compostos, this.state.tipoFiltroLogico);
+    this.props.handleChangeState(
+      this.state.compostos,
+      this.state.tipoFiltroLogico
+    );
   };
 
   renderLista = () => {
@@ -79,7 +82,7 @@ export class MenuLateralFiltroCompostos extends Component {
                       checked={this.state.compostos[item]}
                       onChange={this.handleChangeCheckbox(item)}
                       value={item}
-                      color="primary"
+                      color='primary'
                     />
                   }
                   label={item}
@@ -96,38 +99,53 @@ export class MenuLateralFiltroCompostos extends Component {
     const { classes, open } = this.props;
 
     return (
-      <Drawer open={open} onClose={this.props.toggleDrawer('filtroComposto', false)}>
+      <Drawer
+        open={open}
+        onClose={this.props.toggleDrawer('filtroComposto', false)}
+      >
         <div
           tabIndex={0}
-          role="button"
+          role='button'
           onKeyDown={this.props.toggleDrawer('filtroComposto', false)}
         >
           <Divider />
           <Typography
-            style={{ marginTop: '10px', marginBottom: '10px', textAlign: 'center' }}
-            variant="h5"
+            style={{
+              marginTop: '10px',
+              marginBottom: '10px',
+              textAlign: 'center'
+            }}
+            variant='h5'
             gutterBottom
           >
             Filtro Compostos
           </Typography>
           <Divider />
-          <Button variant="outlined" className={classes.button} onClick={this.selecionarTodos}>
+          <Button
+            variant='outlined'
+            className={classes.button}
+            onClick={this.selecionarTodos}
+          >
             Selecionar todos
           </Button>
-          <Button variant="outlined" className={classes.button} onClick={this.deselecionarTodos}>
+          <Button
+            variant='outlined'
+            className={classes.button}
+            onClick={this.deselecionarTodos}
+          >
             Desmarcar todos
           </Button>
           <Button
-            variant="outlined"
-            color="primary"
+            variant='outlined'
+            color='primary'
             className={classes.button}
             onClick={this.aplicarFiltro}
           >
             Aplicar
           </Button>
           <Button
-            variant="outlined"
-            color="secondary"
+            variant='outlined'
+            color='secondary'
             className={classes.button}
             onClick={this.props.toggleDrawer('filtroComposto', false)}
           >
@@ -138,19 +156,19 @@ export class MenuLateralFiltroCompostos extends Component {
         <div style={{ heigth: '150px', marginLeft: '80px' }}>
           <FormControlLabel
             style={{ marginLeft: '32px' }}
-            value="filtroOU"
+            value='filtroOU'
             checked={this.state.tipoFiltroLogico === 'filtroOU'}
             onChange={this.handleChangeTipoFiltro}
-            control={<Radio color="primary" />}
-            label="Filtro Lógica OU"
+            control={<Radio color='primary' />}
+            label='Filtro Lógica OU'
           />
           <FormControlLabel
             style={{ marginLeft: '32px' }}
-            value="filtroE"
+            value='filtroE'
             checked={this.state.tipoFiltroLogico === 'filtroE'}
             onChange={this.handleChangeTipoFiltro}
-            control={<Radio color="primary" />}
-            label="Filtro Lógica E"
+            control={<Radio color='primary' />}
+            label='Filtro Lógica E'
           />
         </div>
         <Divider />

@@ -11,6 +11,7 @@ export const EstadoCompostosTrue = {
   Si: true,
   O2: true,
   Ca: true,
+  C8: true,
   O: true,
   K: true,
   Ga: true,

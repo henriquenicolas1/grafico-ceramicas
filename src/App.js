@@ -74,7 +74,6 @@ class App extends Component {
               onChange={this.handleChangeAba}
               indicatorColor='primary'
               textColor='primary'
-              variant='scrollable'
               scrollButtons='auto'
               centered
             >

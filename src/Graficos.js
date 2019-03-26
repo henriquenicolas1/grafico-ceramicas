@@ -12,6 +12,14 @@ const pf = require('pareto-frontier');
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 class Graficos extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataPointsFrenteParetoOriginal: null,
+      quantidadePontosOriginal: null
+    };
+  }
+
   verificaSeIncluiMaterialLogicaE = (listaSelecionados, listaDoMaterial) => {
     if (listaSelecionados.length > listaDoMaterial.length) return false;
 
@@ -107,6 +115,9 @@ class Graficos extends Component {
         listaFinal.push(dataPoint);
       }
     });
+    if (!this.state.quantidadePontosOriginal) {
+      this.setState({ quantidadePontosOriginal: listaFinal.length });
+    }
     return listaFinal;
   };
 
@@ -159,6 +170,79 @@ class Graficos extends Component {
     };
   };
 
+  obterOpcoesGraficoFrentePareto = (
+    listaMateriaisParetoOriginal,
+    listaNovosMateriaisPareto,
+    listaOutrosPontos,
+    quantidadePontosOriginal,
+    titulo,
+    tituloX,
+    tituloY
+  ) => {
+    listaMateriaisParetoOriginal.sort(function(a, b) {
+      return a.x - b.x;
+    });
+
+    let quantidadeDePontos =
+      listaNovosMateriaisPareto.length + listaOutrosPontos.length;
+    let listaParetoAtual =
+      !quantidadePontosOriginal ||
+      quantidadePontosOriginal === quantidadeDePontos
+        ? []
+        : listaNovosMateriaisPareto;
+    return {
+      theme: 'dark2',
+      height: 520,
+      animationEnabled: true,
+      zoomEnabled: true,
+      title: {
+        text: titulo,
+        fontSize: 35
+      },
+      axisX: {
+        title: tituloX,
+        titleFontSize: 25,
+        crosshair: {
+          enabled: true,
+          snapToDataPoint: true
+        }
+      },
+      axisY: {
+        title: tituloY,
+        titleFontSize: 25,
+        crosshair: {
+          enabled: true,
+          snapToDataPoint: true
+        }
+      },
+      data: [
+        {
+          type: 'spline',
+          showInLegend: true,
+          name: 'Frente Pareto Original',
+          color: 'red',
+          dataPoints: listaMateriaisParetoOriginal
+        },
+        {
+          type: 'scatter',
+          showInLegend: true,
+          legendText: 'Frente Pareto do Filtro',
+          color: 'yellow',
+          name: 'Frente Pareto do Filtro',
+          dataPoints: listaParetoAtual
+        },
+        {
+          type: 'scatter',
+          showInLegend: true,
+          legendText: 'Outros materiais',
+          color: 'blue',
+          name: 'Outros materiais',
+          dataPoints: listaOutrosPontos
+        }
+      ]
+    };
+  };
+
   obterMateriaisFormatoEntradaFrenteDePareto = materiais => {
     let lista = [];
     _.forEach(materiais, function(material) {
@@ -191,9 +275,12 @@ class Graficos extends Component {
 
   calculaDataPointsFrentePareto = (
     listaDeMateriais,
-    listaIndexDoResultadoFrentePareto
+    listaIndexDoResultadoFrentePareto,
+    dataPointsFrenteParetoOriginal
   ) => {
-    let lista = [];
+    let listaFrenteParetoOriginal = [];
+    let listaFrenteParetoNova = [];
+    let listaOutrosPontos = [];
     let indexLoop = 0;
     let novoDataPoint = {
       x: null,
@@ -203,14 +290,30 @@ class Graficos extends Component {
       markerSize: null
     };
     _.forEach(listaDeMateriais, function(dataPoint) {
-      if (listaIndexDoResultadoFrentePareto.includes(indexLoop)) {
+      if (
+        listaIndexDoResultadoFrentePareto.includes(indexLoop) &&
+        dataPointsFrenteParetoOriginal === null
+      ) {
         novoDataPoint = {
           x: dataPoint.x,
           y: dataPoint.y,
           toolTipContent: dataPoint.toolTipContent,
-          markerSize: 17,
+          markerSize: 15,
           color: 'red'
         };
+        listaFrenteParetoOriginal.push(novoDataPoint);
+      } else if (
+        listaIndexDoResultadoFrentePareto.includes(indexLoop) &&
+        dataPointsFrenteParetoOriginal !== null
+      ) {
+        novoDataPoint = {
+          x: dataPoint.x,
+          y: dataPoint.y,
+          toolTipContent: dataPoint.toolTipContent,
+          markerSize: 12,
+          color: 'yellow'
+        };
+        listaFrenteParetoNova.push(novoDataPoint);
       } else {
         novoDataPoint = {
           x: dataPoint.x,
@@ -219,12 +322,23 @@ class Graficos extends Component {
           markerSize: 5,
           color: 'blue'
         };
+        listaOutrosPontos.push(novoDataPoint);
       }
-
-      lista.push(novoDataPoint);
       indexLoop++;
     });
-    return lista;
+    if (!dataPointsFrenteParetoOriginal) {
+      this.setState({
+        dataPointsFrenteParetoOriginal: listaFrenteParetoOriginal,
+        quantidadePontosOriginal:
+          listaFrenteParetoOriginal.length + listaOutrosPontos.length
+      });
+    }
+
+    return {
+      pontosParetoOriginal: listaFrenteParetoOriginal,
+      pontosPareto: listaFrenteParetoNova,
+      pontosNormal: listaOutrosPontos
+    };
   };
 
   shouldComponentUpdate = nextProps => {
@@ -247,6 +361,11 @@ class Graficos extends Component {
       tipoFiltroCategoria,
       tipoFiltroLogico
     } = this.props;
+
+    const {
+      dataPointsFrenteParetoOriginal,
+      quantidadePontosOriginal
+    } = this.state;
 
     const materiais = this.calculaDataPoints(
       MateriaisCeramicosDuplicados,
@@ -288,13 +407,25 @@ class Graficos extends Component {
 
     const materiaisResultadoFrentePareto = this.calculaDataPointsFrentePareto(
       materiais,
-      listaIndexDoResultadoFrentePareto
+      listaIndexDoResultadoFrentePareto,
+      dataPointsFrenteParetoOriginal
     );
 
     return (
       <div className={classes.root}>
-        <Typography variant='h6' gutterBottom>
+        <Typography
+          variant='h6'
+          gutterBottom
+          style={{ display: 'inline-block', marginRight: '80px' }}
+        >
           Total de materiais: {materiais.length}
+        </Typography>
+        <Typography
+          variant='h6'
+          gutterBottom
+          style={{ display: 'inline-block' }}
+        >
+          Total na Frente de Pareto: {listaIndexDoResultadoFrentePareto.length}
         </Typography>
         <ExpansionPanel defaultExpanded={true}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -319,8 +450,13 @@ class Graficos extends Component {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <CanvasJSChart
-              options={this.obterOpcoesGrafico(
-                materiaisResultadoFrentePareto,
+              options={this.obterOpcoesGraficoFrentePareto(
+                dataPointsFrenteParetoOriginal
+                  ? dataPointsFrenteParetoOriginal
+                  : materiaisResultadoFrentePareto.pontosParetoOriginal,
+                materiaisResultadoFrentePareto.pontosPareto,
+                materiaisResultadoFrentePareto.pontosNormal,
+                quantidadePontosOriginal,
                 'Fator de Qualidade - Qf (GHz) vs Constante Dielétrica - εr',
                 'Constante Dielétrica',
                 'Fator de Qualidade (Q*GHz)'
