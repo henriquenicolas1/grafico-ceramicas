@@ -365,23 +365,16 @@ class Graficos extends Component {
 
   obterDistanciaEclidiana = pontoAtual => {
     let dataPoints = this.state.dataPointsFrenteParetoOriginal;
-    console.log(dataPoints);
     let listaPontos = _.map(dataPoints, function(dataPoint) {
       return [dataPoint.x, dataPoint.y];
     });
     let listaDistancias = _.map(listaPontos, function(ponto) {
-      console.log('/n');
-      console.log('ponto da lista: ', ponto);
-      console.log('ponto atual: ', pontoAtual);
-      let distanciaCalculada = distance(ponto, pontoAtual);
-      console.log('distancia calculada: ', distanciaCalculada);
-      return distanciaCalculada;
+      return distance(ponto, pontoAtual);
     });
 
     let distancia = _.min(listaDistancias);
     let indiceDistancia = listaDistancias.indexOf(distancia);
     let pontoMaisProximo = dataPoints[indiceDistancia];
-    //console.log(distancia)
     return {
       distanciaEclidiana: distancia,
       pontoMaisProximo: pontoMaisProximo.toolTipContent.toString()
