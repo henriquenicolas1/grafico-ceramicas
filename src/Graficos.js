@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import _ from 'lodash';
 const pf = require('pareto-frontier');
+var distance = require('euclidean-distance');
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 class Graficos extends Component {
@@ -93,8 +94,8 @@ class Graficos extends Component {
             toolTipContent: `
                     <b>Id: </b> ${material.Id} <br/>
                     <b>Material: </b> ${material.Material} <br/>
-                    <b>εr: </b>{x}<br/>
-                    <b>Qf: </b>{y}<br/>
+                    <b>εr: </b>${material.ConstanteDieletrica}<br/>
+                    <b>Qf: </b>${material.FatorQualidade}<br/>
                     <b>Elementos: </b>${material.Elementos}<br/>
                     <b>Compostos: </b>${material.Compostos}`
           };
@@ -105,8 +106,10 @@ class Graficos extends Component {
             toolTipContent: `
                   <b>Id: </b> ${material.Id} <br/>
                   <b>Material: </b> ${material.Material} <br/>
-                  <b>εr: </b>{x}<br/>
-                  <b>Qf: </b>{y}
+                  <b>εr: </b>${material.ConstanteDieletrica}<br/>
+                  <b>Qf: </b>${material.FatorQualidade}<br/>
+                  <b>Log(εr): </b>{x}<br/>
+                  <b>Log(Qf): </b>{y}<br/>
                   <b>Elementos: </b>${material.Elementos}<br/>
                   <b>Compostos: </b>${material.Compostos}`
           };
@@ -140,6 +143,7 @@ class Graficos extends Component {
       height: 520,
       animationEnabled: true,
       zoomEnabled: true,
+      zoomType: 'xy',
       title: {
         text: titulo,
         fontSize: 35
@@ -195,6 +199,7 @@ class Graficos extends Component {
       height: 520,
       animationEnabled: true,
       zoomEnabled: true,
+      zoomType: 'xy',
       title: {
         text: titulo,
         fontSize: 35
@@ -202,6 +207,8 @@ class Graficos extends Component {
       axisX: {
         title: tituloX,
         titleFontSize: 25,
+        minimum: -8,
+        maximum: 2800,
         crosshair: {
           enabled: true,
           snapToDataPoint: true
@@ -210,6 +217,7 @@ class Graficos extends Component {
       axisY: {
         title: tituloY,
         titleFontSize: 25,
+        minimum: -8,
         crosshair: {
           enabled: true,
           snapToDataPoint: true
@@ -279,6 +287,7 @@ class Graficos extends Component {
     dataPointsFrenteParetoOriginal
   ) => {
     let listaFrenteParetoOriginal = [];
+    let materiasFrentePareto = [];
     let listaFrenteParetoNova = [];
     let listaOutrosPontos = [];
     let indexLoop = 0;
@@ -289,6 +298,7 @@ class Graficos extends Component {
       color: null,
       markerSize: null
     };
+    var selfCalcula = this;
     _.forEach(listaDeMateriais, function(dataPoint) {
       if (
         listaIndexDoResultadoFrentePareto.includes(indexLoop) &&
@@ -302,14 +312,26 @@ class Graficos extends Component {
           color: 'red'
         };
         listaFrenteParetoOriginal.push(novoDataPoint);
+        materiasFrentePareto.push(dataPoint);
       } else if (
         listaIndexDoResultadoFrentePareto.includes(indexLoop) &&
         dataPointsFrenteParetoOriginal !== null
       ) {
+        let pontoAtual = [dataPoint.x, dataPoint.y];
+        let distanciaEuclidiana = selfCalcula.obterDistanciaEclidiana(
+          pontoAtual
+        );
         novoDataPoint = {
           x: dataPoint.x,
           y: dataPoint.y,
-          toolTipContent: dataPoint.toolTipContent,
+          toolTipContent:
+            `<b>Informações material</b> <br/>` +
+            dataPoint.toolTipContent +
+            `<br/> <b>Distância do material da frente mais próximo: </b> ${distanciaEuclidiana.distanciaEclidiana.toFixed(
+              2
+            )} <br/>` +
+            ` <br> <b>Informações material frente de pareto mais próximo</b> <br/>` +
+            distanciaEuclidiana.pontoMaisProximo,
           markerSize: 12,
           color: 'yellow'
         };
@@ -338,6 +360,31 @@ class Graficos extends Component {
       pontosParetoOriginal: listaFrenteParetoOriginal,
       pontosPareto: listaFrenteParetoNova,
       pontosNormal: listaOutrosPontos
+    };
+  };
+
+  obterDistanciaEclidiana = pontoAtual => {
+    let dataPoints = this.state.dataPointsFrenteParetoOriginal;
+    console.log(dataPoints);
+    let listaPontos = _.map(dataPoints, function(dataPoint) {
+      return [dataPoint.x, dataPoint.y];
+    });
+    let listaDistancias = _.map(listaPontos, function(ponto) {
+      console.log('/n');
+      console.log('ponto da lista: ', ponto);
+      console.log('ponto atual: ', pontoAtual);
+      let distanciaCalculada = distance(ponto, pontoAtual);
+      console.log('distancia calculada: ', distanciaCalculada);
+      return distanciaCalculada;
+    });
+
+    let distancia = _.min(listaDistancias);
+    let indiceDistancia = listaDistancias.indexOf(distancia);
+    let pontoMaisProximo = dataPoints[indiceDistancia];
+    //console.log(distancia)
+    return {
+      distanciaEclidiana: distancia,
+      pontoMaisProximo: pontoMaisProximo.toolTipContent.toString()
     };
   };
 
