@@ -9,7 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import _ from 'lodash';
 const pf = require('pareto-frontier');
-var distance = require('euclidean-distance');
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 class Graficos extends Component {
@@ -17,14 +16,15 @@ class Graficos extends Component {
     super(props);
     this.state = {
       dataPointsFrenteParetoOriginal: null,
-      quantidadePontosOriginal: null
+      quantidadePontosOriginal: null,
+      listaValoresRetas: null
     };
   }
 
   verificaSeIncluiMaterialLogicaE = (listaSelecionados, listaDoMaterial) => {
     if (listaSelecionados.length > listaDoMaterial.length) return false;
 
-    for (var i = 0; i < listaSelecionados.length; i++) {
+    for (let i = 0; i < listaSelecionados.length; i++) {
       if (!listaDoMaterial.includes(listaSelecionados[i])) {
         return false;
       }
@@ -33,7 +33,7 @@ class Graficos extends Component {
   };
 
   verificaSeIncluiMaterialLogicaOu = (listaSelecionados, listaDoMaterial) => {
-    for (var i = 0; i < listaSelecionados.length; i++) {
+    for (let i = 0; i < listaSelecionados.length; i++) {
       if (listaDoMaterial.includes(listaSelecionados[i])) {
         return true;
       }
@@ -124,18 +124,18 @@ class Graficos extends Component {
     return listaFinal;
   };
 
-  imprimeValores = MateriaisCeramicosDuplicados => {
-    let arrayFinal = [];
-    _.forEach(MateriaisCeramicosDuplicados, function(material) {
-      let arrayMateriais = material.Compostos.split(',');
-      let arrayIntermediario = arrayFinal.concat(arrayMateriais);
-      arrayFinal = _.uniqWith(arrayIntermediario, _.isEqual);
-    });
-    //console.log(JSON.stringify(arrayFinal));
-    // _.map(arrayFinal, item => {
-    //   console.log(item);
-    // });
-  };
+  // imprimeValores = MateriaisCeramicosDuplicados => {
+  //   let arrayFinal = [];
+  //   _.forEach(MateriaisCeramicosDuplicados, function(material) {
+  //     let arrayMateriais = material.Compostos.split(',');
+  //     let arrayIntermediario = arrayFinal.concat(arrayMateriais);
+  //     arrayFinal = _.uniqWith(arrayIntermediario, _.isEqual);
+  //   });
+  //   console.log(JSON.stringify(arrayFinal));
+  //    _.map(arrayFinal, item => {
+  //      console.log(item);
+  //    });
+  // };
 
   obterOpcoesGrafico = (listaMateriais, titulo, tituloX, tituloY) => {
     return {
@@ -183,10 +183,6 @@ class Graficos extends Component {
     tituloX,
     tituloY
   ) => {
-    listaMateriaisParetoOriginal.sort(function(a, b) {
-      return a.x - b.x;
-    });
-
     let quantidadeDePontos =
       listaNovosMateriaisPareto.length + listaOutrosPontos.length;
     let listaParetoAtual =
@@ -298,7 +294,7 @@ class Graficos extends Component {
       color: null,
       markerSize: null
     };
-    var selfCalcula = this;
+    let self = this;
     _.forEach(listaDeMateriais, function(dataPoint) {
       if (
         listaIndexDoResultadoFrentePareto.includes(indexLoop) &&
@@ -317,21 +313,16 @@ class Graficos extends Component {
         listaIndexDoResultadoFrentePareto.includes(indexLoop) &&
         dataPointsFrenteParetoOriginal !== null
       ) {
-        let pontoAtual = [dataPoint.x, dataPoint.y];
-        let distanciaEuclidiana = selfCalcula.obterDistanciaEclidiana(
-          pontoAtual
-        );
+        let distanciaEuclidiana = self.obterDistanciaEclidiana(dataPoint);
+
         novoDataPoint = {
           x: dataPoint.x,
           y: dataPoint.y,
           toolTipContent:
-            `<b>Informações material</b> <br/>` +
             dataPoint.toolTipContent +
-            `<br/> <b>Distância do material da frente mais próximo: </b> ${distanciaEuclidiana.distanciaEclidiana.toFixed(
+            `<br/> <b>Distância até a frente de pareto: </b> ${distanciaEuclidiana.toFixed(
               2
-            )} <br/>` +
-            ` <br> <b>Informações material frente de pareto mais próximo</b> <br/>` +
-            distanciaEuclidiana.pontoMaisProximo,
+            )} <br/>`,
           markerSize: 12,
           color: 'yellow'
         };
@@ -349,6 +340,12 @@ class Graficos extends Component {
       indexLoop++;
     });
     if (!dataPointsFrenteParetoOriginal) {
+      listaFrenteParetoOriginal.sort(function(a, b) {
+        return a.x - b.x;
+      });
+
+      //self.colocarNoEstadoValoresRetas(listaFrenteParetoOriginal);
+
       this.setState({
         dataPointsFrenteParetoOriginal: listaFrenteParetoOriginal,
         quantidadePontosOriginal:
@@ -363,22 +360,88 @@ class Graficos extends Component {
     };
   };
 
-  obterDistanciaEclidiana = pontoAtual => {
-    let dataPoints = this.state.dataPointsFrenteParetoOriginal;
-    let listaPontos = _.map(dataPoints, function(dataPoint) {
-      return [dataPoint.x, dataPoint.y];
-    });
-    let listaDistancias = _.map(listaPontos, function(ponto) {
-      return distance(ponto, pontoAtual);
-    });
+  // colocarNoEstadoValoresRetas = listaFrenteParetoOriginal => {
+  //   let listaValoresRetas = [];
 
-    let distancia = _.min(listaDistancias);
-    let indiceDistancia = listaDistancias.indexOf(distancia);
-    let pontoMaisProximo = dataPoints[indiceDistancia];
+  //   for (let i = 0; i < listaFrenteParetoOriginal.length - 1; i++) {
+  //     let x1 = listaFrenteParetoOriginal[i].x;
+  //     let y1 = listaFrenteParetoOriginal[i].y;
+  //     let x2 = listaFrenteParetoOriginal[i + 1].x;
+  //     let y2 = listaFrenteParetoOriginal[i + 1].y;
+
+  //     let valorReta = this.calculaParametrosDaReta(x1, y1, x2, y2);
+  //     listaValoresRetas.push(valorReta);
+  //   }
+  //   this.setState({ listaValoresRetas: listaValoresRetas });
+  // };
+
+  obterDistanciaEclidiana = pontoAtual => {
+    let listaDistancias = [];
+    let listaFrenteParetoOriginal = this.state.dataPointsFrenteParetoOriginal;
+
+    for (let i = 0; i < listaFrenteParetoOriginal.length - 1; i++) {
+      let p = { x: pontoAtual.x, y: pontoAtual.y };
+      let v = {
+        x: listaFrenteParetoOriginal[i].x,
+        y: listaFrenteParetoOriginal[i].y
+      };
+      let w = {
+        x: listaFrenteParetoOriginal[i + 1].x,
+        y: listaFrenteParetoOriginal[i + 1].y
+      };
+
+      let distanciaCalculada = this.distToSegment(p, v, w);
+      listaDistancias.push(distanciaCalculada);
+    }
+
+    console.log(_.min(listaDistancias));
+    return _.min(listaDistancias);
+  };
+
+  sqr = x => {
+    return x * x;
+  };
+
+  dist2 = (v, w) => {
+    return this.sqr(v.x - w.x) + this.sqr(v.y - w.y);
+  };
+
+  distToSegmentSquared = (p, v, w) => {
+    var l2 = this.dist2(v, w);
+    if (l2 === 0) {
+      return this.dist2(p, v);
+    }
+    var t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
+    t = Math.max(0, Math.min(1, t));
+    return this.dist2(p, {
+      x: v.x + t * (w.x - v.x),
+      y: v.y + t * (w.y - v.y)
+    });
+  };
+
+  distToSegment = (p, v, w) => {
+    return Math.sqrt(this.distToSegmentSquared(p, v, w));
+  };
+
+  calculaParametrosDaReta = (x1, y1, x2, y2) => {
+    let coeficiente = (y2 - y1) / (x2 + x1);
+    let termoIndependente = y1 - coeficiente * x1;
     return {
-      distanciaEclidiana: distancia,
-      pontoMaisProximo: pontoMaisProximo.toolTipContent.toString()
+      coeficiente: coeficiente,
+      termoIndependente: termoIndependente
     };
+  };
+
+  calcularDistanciaDoPontoAReta = (coeficiente, termoIndependente, x0, y0) => {
+    let a = coeficiente;
+    let b = -1;
+    let c = termoIndependente;
+
+    let distancia =
+      Math.abs(a * x0 + b * y0 + c) /
+      Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+
+    return distancia;
   };
 
   shouldComponentUpdate = nextProps => {
@@ -521,7 +584,7 @@ class Graficos extends Component {
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
-        {this.imprimeValores(MateriaisCeramicosDuplicados)}
+        {/* {this.imprimeValores(MateriaisCeramicosDuplicados)} */}
       </div>
     );
   }
