@@ -8,6 +8,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import MenuLateralFiltroElementos from './MenuLateralFiltroElementos';
 import MenuLateralFiltroCompostos from './MenuLateralFiltroCompostos';
+import MenuLateralFrentePareto from './MenuLateralFrentePareto';
 import { EstadoElementosTrue } from './const/EstadoElementosTrue.js';
 import { EstadoCompostosTrue } from './const/EstadoCompostosTrue.js';
 import TabelaCeramicas from './TabelaCeramicas';
@@ -29,10 +30,22 @@ class App extends Component {
       tipoFiltroLogico: 'filtroOU',
       filtroElemento: false,
       filtroComposto: false,
+      menuFrentePareto: false,
+      menuFrenteParetoNova: false,
+      frenteParetoOriginal: null,
+      frenteParetoNova: null,
       elementos: EstadoElementosTrue,
       compostos: EstadoCompostosTrue
     };
   }
+
+  alteraEstadoAppFrenteParetoOriginal = frentePareto => {
+    this.setState({ frenteParetoOriginal: frentePareto });
+  };
+
+  alteraEstadoAppFrenteParetoNova = frentePareto => {
+    this.setState({ frenteParetoNova: frentePareto });
+  };
 
   toggleDrawer = (side, open) => () => {
     this.setState({
@@ -62,6 +75,7 @@ class App extends Component {
     this.setState({ value });
   };
 
+  //TODO: a troca de aba faz com que o estado da aplicação fique errado
   render() {
     const { classes } = this.props;
     const { value } = this.state;
@@ -97,6 +111,21 @@ class App extends Component {
               >
                 Filtrar Gráficos por Compostos
               </Button>
+              <Button
+                style={{ margin: '10px' }}
+                variant='contained'
+                onClick={this.toggleDrawer('menuFrentePareto', true)}
+              >
+                Exibir Elementos Frente de Pareto
+              </Button>
+              <Button
+                style={{ margin: '10px' }}
+                variant='contained'
+                onClick={this.toggleDrawer('menuFrenteParetoNova', true)}
+                disabled={this.state.frenteParetoNova === null}
+              >
+                Exibir Elementos Frente de Pareto do Filtro
+              </Button>
               {/* <a href='./lista-materiais-ceramicos.pdf' download>
           Click to download
         </a> */}
@@ -112,12 +141,29 @@ class App extends Component {
                 handleChangeState={this.handleChangeStateCompostos}
                 listaElementosSemAlteracao={this.state.compostos}
               />
-
+              <MenuLateralFrentePareto
+                toggleDrawer={this.toggleDrawer}
+                open={this.state.menuFrentePareto}
+                frentePareto={this.state.frenteParetoOriginal}
+                tipoFrentePareto={'original'}
+              />
+              <MenuLateralFrentePareto
+                toggleDrawer={this.toggleDrawer}
+                open={this.state.menuFrenteParetoNova}
+                frentePareto={this.state.frenteParetoNova}
+                tipoFrentePareto={'nova'}
+              />
               <Graficos
                 elementosSelecionados={this.state.elementos}
                 compostosSelecionados={this.state.compostos}
                 tipoFiltroCategoria={this.state.tipoFiltroCategoria}
                 tipoFiltroLogico={this.state.tipoFiltroLogico}
+                alteraEstadoAppFrenteParetoOriginal={
+                  this.alteraEstadoAppFrenteParetoOriginal
+                }
+                alteraEstadoAppFrenteParetoNova={
+                  this.alteraEstadoAppFrenteParetoNova
+                }
               />
             </div>
           )}

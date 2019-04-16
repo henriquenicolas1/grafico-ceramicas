@@ -16,6 +16,7 @@ class Graficos extends Component {
     super(props);
     this.state = {
       dataPointsFrenteParetoOriginal: null,
+      dataPointsFrenteParetoNova: null,
       quantidadePontosOriginal: null,
       listaValoresRetas: null
     };
@@ -344,13 +345,19 @@ class Graficos extends Component {
         return a.x - b.x;
       });
 
-      //self.colocarNoEstadoValoresRetas(listaFrenteParetoOriginal);
-
       this.setState({
         dataPointsFrenteParetoOriginal: listaFrenteParetoOriginal,
         quantidadePontosOriginal:
           listaFrenteParetoOriginal.length + listaOutrosPontos.length
       });
+
+      this.props.alteraEstadoAppFrenteParetoOriginal(
+        listaIndexDoResultadoFrentePareto
+      );
+    } else {
+      this.props.alteraEstadoAppFrenteParetoNova(
+        listaIndexDoResultadoFrentePareto
+      );
     }
 
     return {
@@ -359,21 +366,6 @@ class Graficos extends Component {
       pontosNormal: listaOutrosPontos
     };
   };
-
-  // colocarNoEstadoValoresRetas = listaFrenteParetoOriginal => {
-  //   let listaValoresRetas = [];
-
-  //   for (let i = 0; i < listaFrenteParetoOriginal.length - 1; i++) {
-  //     let x1 = listaFrenteParetoOriginal[i].x;
-  //     let y1 = listaFrenteParetoOriginal[i].y;
-  //     let x2 = listaFrenteParetoOriginal[i + 1].x;
-  //     let y2 = listaFrenteParetoOriginal[i + 1].y;
-
-  //     let valorReta = this.calculaParametrosDaReta(x1, y1, x2, y2);
-  //     listaValoresRetas.push(valorReta);
-  //   }
-  //   this.setState({ listaValoresRetas: listaValoresRetas });
-  // };
 
   obterDistanciaEclidiana = pontoAtual => {
     let listaDistancias = [];
@@ -393,8 +385,6 @@ class Graficos extends Component {
       let distanciaCalculada = this.distToSegment(p, v, w);
       listaDistancias.push(distanciaCalculada);
     }
-
-    console.log(_.min(listaDistancias));
     return _.min(listaDistancias);
   };
 
