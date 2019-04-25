@@ -52,7 +52,6 @@ export const EstadoElementosFalse = {
   T: false,
   Cd: false,
   In: false,
-  Fl: false,
   Cr: false,
   Vo: false,
   Ce: false,
@@ -64,12 +63,11 @@ export const EstadoElementosFalse = {
   Gd: false,
   Wx: false,
   Lu: false,
-  Pe: false,
   Rb: false,
   Z: false,
   Sc: false,
   E: false,
-  Be: false,
   X: false,
-  Ph: false
+  Ph: false,
+  H20: false
 };

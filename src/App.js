@@ -103,29 +103,49 @@ class App extends Component {
           {value === 0 && (
             <div>
               <Button
-                style={{ margin: '10px' }}
-                variant='contained'
+                style={{
+                  marginTop: '24px',
+                  marginBottom: '24px',
+                  marginRight: '8px',
+                  marginLeft: '8px'
+                }}
+                variant='outlined'
                 onClick={this.toggleDrawer('filtroElemento', true)}
               >
                 Filtrar Gráficos por Elemento
               </Button>
               <Button
-                style={{ margin: '10px' }}
-                variant='contained'
+                style={{
+                  marginTop: '24px',
+                  marginBottom: '24px',
+                  marginRight: '8px',
+                  marginLeft: '8px'
+                }}
+                variant='outlined'
                 onClick={this.toggleDrawer('filtroComposto', true)}
               >
                 Filtrar Gráficos por Compostos
               </Button>
               <Button
-                style={{ margin: '10px' }}
-                variant='contained'
+                style={{
+                  marginTop: '24px',
+                  marginBottom: '24px',
+                  marginRight: '8px',
+                  marginLeft: '8px'
+                }}
+                variant='outlined'
                 onClick={this.toggleDrawer('menuFrentePareto', true)}
               >
                 Exibir Elementos Frente de Pareto
               </Button>
               <Button
-                style={{ margin: '10px' }}
-                variant='contained'
+                style={{
+                  marginTop: '24px',
+                  marginBottom: '24px',
+                  marginRight: '8px',
+                  marginLeft: '8px'
+                }}
+                variant='outlined'
                 onClick={this.toggleDrawer('menuFrenteParetoNova', true)}
                 disabled={this.state.frenteParetoNova === null}
               >

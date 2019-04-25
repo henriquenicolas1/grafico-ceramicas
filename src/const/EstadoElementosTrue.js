@@ -52,7 +52,6 @@ export const EstadoElementosTrue = {
   T: true,
   Cd: true,
   In: true,
-  Fl: true,
   Cr: true,
   Vo: true,
   Ce: true,
@@ -64,12 +63,10 @@ export const EstadoElementosTrue = {
   Gd: true,
   Wx: true,
   Lu: true,
-  Pe: true,
   Rb: true,
   Z: true,
   Sc: true,
   E: true,
-  Be: true,
   X: true,
   Ph: true
 };

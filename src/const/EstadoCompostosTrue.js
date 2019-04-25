@@ -155,7 +155,6 @@ export const EstadoCompostosTrue = {
   Sm: true,
   Co2: true,
   Sb2: true,
-  Fl: true,
   Dy4: true,
   V4: true,
   Zr0: true,
@@ -279,7 +278,6 @@ export const EstadoCompostosTrue = {
   Ba8: true,
   Lu: true,
   Ta0: true,
-  Pe: true,
   Te4: true,
   O328: true,
   Ca9: true,
@@ -360,7 +358,6 @@ export const EstadoCompostosTrue = {
   Bi12: true,
   B0: true,
   P0: true,
-  Be: true,
   Nd1525: true,
   Nb5: true,
   A5: true,
@@ -432,5 +429,6 @@ export const EstadoCompostosTrue = {
   Sr13: true,
   Sr11: true,
   Zn6: true,
-  Pb3: true
+  Pb3: true,
+  H20: true
 };
