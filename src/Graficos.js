@@ -191,6 +191,7 @@ class Graficos extends Component {
       quantidadePontosOriginal === quantidadeDePontos
         ? []
         : listaNovosMateriaisPareto;
+
     return {
       theme: 'dark2',
       height: 520,
@@ -325,7 +326,8 @@ class Graficos extends Component {
               2
             )} <br/>`,
           markerSize: 12,
-          color: 'yellow'
+          color: 'yellow',
+          distancia: distanciaEuclidiana
         };
         listaFrenteParetoNova.push(novoDataPoint);
       } else {
@@ -359,7 +361,9 @@ class Graficos extends Component {
         listaIndexDoResultadoFrentePareto
       );
     }
-
+    this.props.alteraEstadoAppListaDataPoninsFrenteParetoGerada(
+      listaFrenteParetoNova
+    );
     return {
       pontosParetoOriginal: listaFrenteParetoOriginal,
       pontosPareto: listaFrenteParetoNova,

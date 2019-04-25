@@ -41,18 +41,112 @@ const styles = theme => ({
 });
 
 export class MenuLateralFrentePareto extends Component {
+  obterIdComDistancia = lista => {
+    if (lista && lista.length > 0) {
+      const regex = /\d+/;
+      let objetoIdDistancia = _.map(lista, function(l) {
+        return {
+          Id: parseInt(l.toolTipContent.match(regex)[0]),
+          Distancia: l.distancia
+        };
+      });
+      return objetoIdDistancia;
+    }
+    return null;
+  };
+
+  obterMateriais = (frentePareto, distanciasComId) => {
+    let materiais;
+    if (!frentePareto) {
+      return null;
+    }
+
+    if (this.props.tipoFrentePareto === 'original') {
+      materiais = _.map(frentePareto, function(index) {
+        return {
+          Id: MateriaisCeramicosDuplicados[index].Id,
+          Material: MateriaisCeramicosDuplicados[index].Material,
+          TemperaturaSintetizacao:
+            MateriaisCeramicosDuplicados[index].TemperaturaSintetizacao,
+          EstruturaCristalina:
+            MateriaisCeramicosDuplicados[index].EstruturaCristalina,
+          ConstanteDieletrica:
+            MateriaisCeramicosDuplicados[index].ConstanteDieletrica,
+          FatorQualidade: MateriaisCeramicosDuplicados[index].FatorQualidade,
+          FrequenciaMedicao:
+            MateriaisCeramicosDuplicados[index].FrequenciaMedicao,
+          VariacaoTemperaturaFrequenciaRessonante:
+            MateriaisCeramicosDuplicados[index]
+              .VariacaoTemperaturaFrequenciaRessonante,
+          Referencia: MateriaisCeramicosDuplicados[index].Referencia,
+          Elementos: MateriaisCeramicosDuplicados[index].Elementos,
+          Compostos: MateriaisCeramicosDuplicados[index].Compostos
+        };
+      });
+    } else {
+      if (!distanciasComId) {
+        return null;
+      } else {
+        materiais = _.map(distanciasComId, function(distId) {
+          return {
+            Id: MateriaisCeramicosDuplicados[distId.Id].Id,
+            Material: MateriaisCeramicosDuplicados[distId.Id].Material,
+            TemperaturaSintetizacao:
+              MateriaisCeramicosDuplicados[distId.Id].TemperaturaSintetizacao,
+            EstruturaCristalina:
+              MateriaisCeramicosDuplicados[distId.Id].EstruturaCristalina,
+            ConstanteDieletrica:
+              MateriaisCeramicosDuplicados[distId.Id].ConstanteDieletrica,
+            FatorQualidade:
+              MateriaisCeramicosDuplicados[distId.Id].FatorQualidade,
+            FrequenciaMedicao:
+              MateriaisCeramicosDuplicados[distId.Id].FrequenciaMedicao,
+            VariacaoTemperaturaFrequenciaRessonante:
+              MateriaisCeramicosDuplicados[distId.Id]
+                .VariacaoTemperaturaFrequenciaRessonante,
+            Referencia: MateriaisCeramicosDuplicados[distId.Id].Referencia,
+            Elementos: MateriaisCeramicosDuplicados[distId.Id].Elementos,
+            Compostos: MateriaisCeramicosDuplicados[distId.Id].Compostos,
+            Distancia: distId.Distancia
+          };
+        });
+      }
+    }
+    return materiais;
+  };
+
   renderLista = () => {
-    const { classes, frentePareto } = this.props;
-    let listaOrdenada = frentePareto
-      ? frentePareto.sort(function(a, b) {
-          return a - b;
-        })
+    const {
+      classes,
+      frentePareto,
+      listaDataPointsFrenteParetoGerada,
+      tipoFrentePareto
+    } = this.props;
+
+    let distanciasComId = listaDataPointsFrenteParetoGerada
+      ? this.obterIdComDistancia(listaDataPointsFrenteParetoGerada)
       : null;
+
+    let materiais = frentePareto
+      ? this.obterMateriais(frentePareto, distanciasComId)
+      : null;
+
+    console.log('que q pegou nessa bagaca²', materiais);
+
+    if (materiais && tipoFrentePareto === 'original') {
+      materiais.sort(function(a, b) {
+        return a.Id - b.Id;
+      });
+    } else if (materiais && tipoFrentePareto === 'nova') {
+      materiais.sort(function(a, b) {
+        return a.Distancia - b.Distancia;
+      });
+    }
 
     return (
       <div className={classes.list}>
-        {listaOrdenada
-          ? _.map(listaOrdenada, index => {
+        {materiais
+          ? _.map(materiais, material => {
               return (
                 <Card className={classes.card}>
                   <CardContent className={classes.cardContent}>
@@ -61,62 +155,59 @@ export class MenuLateralFrentePareto extends Component {
                       color='textSecondary'
                       gutterBottom
                     >
-                      <span>Id: {MateriaisCeramicosDuplicados[index].Id}</span>
+                      <span>Id: {material.Id}</span>
                     </Typography>
                     <Typography
                       className={classes.pos}
                       variant='h5'
                       component='h2'
                     >
-                      <span>
-                        {MateriaisCeramicosDuplicados[index].Material}
-                      </span>
+                      <span>{material.Material}</span>
                       <br />
                     </Typography>
 
                     <Typography component='p'>
+                      {tipoFrentePareto === 'nova' ? (
+                        <div>
+                          <strong>Distância até a frente de pareto:</strong>
+                          <span className={classes.posicaoTexto}>
+                            {material.Distancia.toFixed(2)}
+                          </span>
+                        </div>
+                      ) : null}
                       <strong>Constante Dielétrica:</strong>
                       <span className={classes.posicaoTexto}>
-                        {
-                          MateriaisCeramicosDuplicados[index]
-                            .ConstanteDieletrica
-                        }
+                        {material.ConstanteDieletrica}
                       </span>
                       <br />
                       <strong>Fator de Qualidade:</strong>
                       <span className={classes.posicaoTexto}>
-                        {MateriaisCeramicosDuplicados[index].FatorQualidade}
+                        {material.FatorQualidade}
                       </span>
                       <br />
                       <strong>Elementos:</strong>
                       <span className={classes.posicaoTexto}>
-                        {MateriaisCeramicosDuplicados[index].Elementos}
+                        {material.Elementos}
                       </span>
                       <br />
                       <strong>Compostos:</strong>
                       <span className={classes.posicaoTexto}>
-                        {MateriaisCeramicosDuplicados[index].Compostos}
+                        {material.Compostos}
                       </span>
                       <br />
                       <strong>Frequência de Medição:</strong>
                       <span className={classes.posicaoTexto}>
-                        {MateriaisCeramicosDuplicados[index].FrequenciaMedicao}
+                        {material.FrequenciaMedicao}
                       </span>
                       <br />
                       <strong>Temperatura Sintetização:</strong>
                       <span className={classes.posicaoTexto}>
-                        {
-                          MateriaisCeramicosDuplicados[index]
-                            .TemperaturaSintetizacao
-                        }
+                        {material.TemperaturaSintetizacao}
                       </span>
                       <br />
                       <strong>Estrutura Cristalina:</strong>
                       <span className={classes.posicaoTexto}>
-                        {
-                          MateriaisCeramicosDuplicados[index]
-                            .EstruturaCristalina
-                        }
+                        {material.EstruturaCristalina}
                       </span>
                       <br />
                       <strong>
@@ -124,15 +215,12 @@ export class MenuLateralFrentePareto extends Component {
                         ressonante:
                       </strong>
                       <span className={classes.posicaoTexto}>
-                        {
-                          MateriaisCeramicosDuplicados[index]
-                            .VariacaoTemperaturaFrequenciaRessonante
-                        }
+                        {material.VariacaoTemperaturaFrequenciaRessonante}
                       </span>
                       <br />
                       <strong>Referência:</strong>
                       <span className={classes.posicaoTexto}>
-                        {MateriaisCeramicosDuplicados[index].Referencia}
+                        {material.Referencia}
                       </span>
                     </Typography>
                   </CardContent>
@@ -144,7 +232,6 @@ export class MenuLateralFrentePareto extends Component {
     );
   };
 
-  //TODO: Colocar informação de distância na frente de pareto nova
   render() {
     const { classes, open, tipoFrentePareto } = this.props;
     let toggle =

@@ -34,6 +34,7 @@ class App extends Component {
       menuFrenteParetoNova: false,
       frenteParetoOriginal: null,
       frenteParetoNova: null,
+      listaDataPointsFrenteParetoGerada: null,
       elementos: EstadoElementosTrue,
       compostos: EstadoCompostosTrue
     };
@@ -45,6 +46,10 @@ class App extends Component {
 
   alteraEstadoAppFrenteParetoNova = frentePareto => {
     this.setState({ frenteParetoNova: frentePareto });
+  };
+
+  alteraEstadoAppListaDataPoninsFrenteParetoGerada = dataPoints => {
+    this.setState({ listaDataPointsFrenteParetoGerada: dataPoints });
   };
 
   toggleDrawer = (side, open) => () => {
@@ -78,7 +83,7 @@ class App extends Component {
   //TODO: a troca de aba faz com que o estado da aplicação fique errado
   render() {
     const { classes } = this.props;
-    const { value } = this.state;
+    const { value, listaDataPointsFrenteParetoGerada } = this.state;
     return (
       <div className='App'>
         <div className={classes.root}>
@@ -146,12 +151,16 @@ class App extends Component {
                 open={this.state.menuFrentePareto}
                 frentePareto={this.state.frenteParetoOriginal}
                 tipoFrentePareto={'original'}
+                listaDataPointsFrenteParetoGerada={null}
               />
               <MenuLateralFrentePareto
                 toggleDrawer={this.toggleDrawer}
                 open={this.state.menuFrenteParetoNova}
                 frentePareto={this.state.frenteParetoNova}
                 tipoFrentePareto={'nova'}
+                listaDataPointsFrenteParetoGerada={
+                  listaDataPointsFrenteParetoGerada
+                }
               />
               <Graficos
                 elementosSelecionados={this.state.elementos}
@@ -163,6 +172,9 @@ class App extends Component {
                 }
                 alteraEstadoAppFrenteParetoNova={
                   this.alteraEstadoAppFrenteParetoNova
+                }
+                alteraEstadoAppListaDataPoninsFrenteParetoGerada={
+                  this.alteraEstadoAppListaDataPoninsFrenteParetoGerada
                 }
               />
             </div>
