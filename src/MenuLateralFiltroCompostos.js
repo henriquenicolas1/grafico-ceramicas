@@ -15,20 +15,20 @@ import Typography from '@material-ui/core/Typography';
 
 import _ from 'lodash';
 
-const styles = theme => ({
+const styles = (theme) => ({
   list: {
-    width: 620
+    width: 620,
   },
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
   },
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
   },
   group: {
-    margin: `${theme.spacing.unit}px 0`
-  }
+    margin: `${theme.spacing.unit}px 0`,
+  },
 });
 
 export class MenuLateralFiltroCompostos extends Component {
@@ -36,21 +36,21 @@ export class MenuLateralFiltroCompostos extends Component {
     super(props);
     this.state = {
       compostos: EstadoCompostosTrue,
-      tipoFiltroLogico: 'filtroOU'
+      tipoFiltroLogico: 'filtroOU',
     };
   }
 
-  handleChangeCheckbox = name => event => {
+  handleChangeCheckbox = (name) => (event) => {
     let valor = event.target.checked;
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       compostos: {
         ...prevState.compostos,
-        [name]: valor
-      }
+        [name]: valor,
+      },
     }));
   };
 
-  handleChangeTipoFiltro = event => {
+  handleChangeTipoFiltro = (event) => {
     this.setState({ tipoFiltroLogico: event.target.value });
   };
 
@@ -73,7 +73,7 @@ export class MenuLateralFiltroCompostos extends Component {
     return (
       <div className={this.props.classes.list}>
         <GridList cellHeight={50} cols={8}>
-          {_.map(ListaCompostos, item => {
+          {_.map(ListaCompostos, (item) => {
             return (
               <GridListTile key={item} style={{ marginLeft: '24px' }}>
                 <FormControlLabel
@@ -113,12 +113,12 @@ export class MenuLateralFiltroCompostos extends Component {
             style={{
               marginTop: '10px',
               marginBottom: '10px',
-              textAlign: 'center'
+              textAlign: 'center',
             }}
             variant='h5'
             gutterBottom
           >
-            Filtro Compostos
+            Compound Filter
           </Typography>
           <Divider />
           <Button
@@ -126,14 +126,14 @@ export class MenuLateralFiltroCompostos extends Component {
             className={classes.button}
             onClick={this.selecionarTodos}
           >
-            Selecionar todos
+            Select All
           </Button>
           <Button
             variant='outlined'
             className={classes.button}
             onClick={this.deselecionarTodos}
           >
-            Desmarcar todos
+            Deselect All
           </Button>
           <Button
             variant='outlined'
@@ -141,7 +141,7 @@ export class MenuLateralFiltroCompostos extends Component {
             className={classes.button}
             onClick={this.aplicarFiltro}
           >
-            Aplicar
+            Apply
           </Button>
           <Button
             variant='outlined'
@@ -149,7 +149,7 @@ export class MenuLateralFiltroCompostos extends Component {
             className={classes.button}
             onClick={this.props.toggleDrawer('filtroComposto', false)}
           >
-            Cancelar
+            Cancel
           </Button>
         </div>
         <Divider />
@@ -160,7 +160,7 @@ export class MenuLateralFiltroCompostos extends Component {
             checked={this.state.tipoFiltroLogico === 'filtroOU'}
             onChange={this.handleChangeTipoFiltro}
             control={<Radio color='primary' />}
-            label='Filtro Lógica OU'
+            label='Logic Filter OR'
           />
           <FormControlLabel
             style={{ marginLeft: '32px' }}
@@ -168,7 +168,7 @@ export class MenuLateralFiltroCompostos extends Component {
             checked={this.state.tipoFiltroLogico === 'filtroE'}
             onChange={this.handleChangeTipoFiltro}
             control={<Radio color='primary' />}
-            label='Filtro Lógica E'
+            label='Logic Filter AND'
           />
         </div>
         <Divider />

@@ -10,18 +10,18 @@ import Paper from '@material-ui/core/Paper';
 import { MateriaisCeramicosDuplicados } from './lib/MateriaisCeramicosDuplicados.js';
 import _ from 'lodash';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     width: '100%',
     marginTop: theme.spacing.unit * 2,
-    overflowX: 'auto'
-  }
+    overflowX: 'auto',
+  },
 });
 
-const formataString = string => {
+const formataString = (string) => {
   let texto = '';
   let lista = string.split(',');
-  _.forEach(lista, function(value) {
+  _.forEach(lista, function (value) {
     texto = texto + value.toString() + '; ';
   });
   return texto;
@@ -52,18 +52,18 @@ function TabelaCeramicas(props) {
             <TableCell>Id </TableCell>
             <TableCell>Material</TableCell>
             <TableCell>ST (◦C)</TableCell>
-            <TableCell>Estrutura Cristalina</TableCell>
+            <TableCell>Crystal structure</TableCell>
             <TableCell>𝜀r</TableCell>
             <TableCell>Qf (GHz)</TableCell>
             <TableCell>f0 </TableCell>
             <TableCell>𝜏f </TableCell>
-            <TableCell> Referência </TableCell>
-            <TableCell> Elementos </TableCell>
-            <TableCell> Compostos </TableCell>
+            <TableCell> Reference </TableCell>
+            <TableCell> Elements </TableCell>
+            <TableCell> Compounds </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {MateriaisCeramicosDuplicados.map(material => (
+          {MateriaisCeramicosDuplicados.map((material) => (
             <TableRow key={material.id}>
               <TableCell component='th' scope='row'>
                 {material.Id}
@@ -89,7 +89,7 @@ function TabelaCeramicas(props) {
 }
 
 TabelaCeramicas.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(TabelaCeramicas);

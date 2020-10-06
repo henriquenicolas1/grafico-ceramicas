@@ -16,9 +16,7 @@ class Graficos extends Component {
     super(props);
     this.state = {
       dataPointsFrenteParetoOriginal: null,
-      dataPointsFrenteParetoNova: null,
       quantidadePontosOriginal: null,
-      listaValoresRetas: null
     };
   }
 
@@ -42,7 +40,7 @@ class Graficos extends Component {
     return false;
   };
 
-  obterListaSelecionados = objetoSelecionados => {
+  obterListaSelecionados = (objetoSelecionados) => {
     let listaSelecionados = [];
 
     for (var chave in objetoSelecionados) {
@@ -63,7 +61,7 @@ class Graficos extends Component {
   ) => {
     let listaFinal = [];
     var self = this;
-    _.forEach(MateriaisCeramicosDuplicados, function(material) {
+    _.forEach(MateriaisCeramicosDuplicados, function (material) {
       let listaDoMaterial =
         tipoFiltroCategoria === 'elementos'
           ? material.Elementos.split(',')
@@ -97,8 +95,8 @@ class Graficos extends Component {
                     <b>Material: </b> ${material.Material} <br/>
                     <b>εr: </b>${material.ConstanteDieletrica}<br/>
                     <b>Qf: </b>${material.FatorQualidade}<br/>
-                    <b>Elementos: </b>${material.Elementos}<br/>
-                    <b>Compostos: </b>${material.Compostos}`
+                    <b>Elements: </b>${material.Elementos}<br/>
+                    <b>Compounds: </b>${material.Compostos}`,
           };
         } else {
           dataPoint = {
@@ -111,8 +109,8 @@ class Graficos extends Component {
                   <b>Qf: </b>${material.FatorQualidade}<br/>
                   <b>Log(εr): </b>{x}<br/>
                   <b>Log(Qf): </b>{y}<br/>
-                  <b>Elementos: </b>${material.Elementos}<br/>
-                  <b>Compostos: </b>${material.Compostos}`
+                  <b>Elements: </b>${material.Elementos}<br/>
+                  <b>Compounds: </b>${material.Compostos}`,
           };
         }
 
@@ -147,31 +145,31 @@ class Graficos extends Component {
       zoomType: 'xy',
       title: {
         text: titulo,
-        fontSize: 35
+        fontSize: 35,
       },
       axisX: {
         title: tituloX,
         titleFontSize: 25,
         crosshair: {
           enabled: true,
-          snapToDataPoint: true
-        }
+          snapToDataPoint: true,
+        },
       },
       axisY: {
         title: tituloY,
         titleFontSize: 25,
         crosshair: {
           enabled: true,
-          snapToDataPoint: true
-        }
+          snapToDataPoint: true,
+        },
       },
       data: [
         {
           type: 'scatter',
           markerSize: 15,
-          dataPoints: listaMateriais
-        }
-      ]
+          dataPoints: listaMateriais,
+        },
+      ],
     };
   };
 
@@ -200,7 +198,7 @@ class Graficos extends Component {
       zoomType: 'xy',
       title: {
         text: titulo,
-        fontSize: 35
+        fontSize: 35,
       },
       axisX: {
         title: tituloX,
@@ -209,8 +207,8 @@ class Graficos extends Component {
         maximum: 2800,
         crosshair: {
           enabled: true,
-          snapToDataPoint: true
-        }
+          snapToDataPoint: true,
+        },
       },
       axisY: {
         title: tituloY,
@@ -218,49 +216,49 @@ class Graficos extends Component {
         minimum: -8,
         crosshair: {
           enabled: true,
-          snapToDataPoint: true
-        }
+          snapToDataPoint: true,
+        },
       },
       data: [
         {
           type: 'spline',
           showInLegend: true,
-          name: 'Frente Pareto Original',
+          name: 'Original Pareto Front',
           color: 'red',
-          dataPoints: listaMateriaisParetoOriginal
+          dataPoints: listaMateriaisParetoOriginal,
         },
         {
           type: 'scatter',
           showInLegend: true,
-          legendText: 'Frente Pareto do Filtro',
+          legendText: 'Filtered Pareto Front',
           color: 'yellow',
-          name: 'Frente Pareto do Filtro',
-          dataPoints: listaParetoAtual
+          name: 'Filtered Pareto Front',
+          dataPoints: listaParetoAtual,
         },
         {
           type: 'scatter',
           showInLegend: true,
-          legendText: 'Outros materiais',
+          legendText: 'Other materials',
           color: 'blue',
-          name: 'Outros materiais',
-          dataPoints: listaOutrosPontos
-        }
-      ]
+          name: 'Other materials',
+          dataPoints: listaOutrosPontos,
+        },
+      ],
     };
   };
 
-  obterMateriaisFormatoEntradaFrenteDePareto = materiais => {
+  obterMateriaisFormatoEntradaFrenteDePareto = (materiais) => {
     let lista = [];
-    _.forEach(materiais, function(material) {
+    _.forEach(materiais, function (material) {
       let listaInterna = [material.x, material.y];
       lista.push(listaInterna);
     });
     return lista;
   };
 
-  obterListaEmFormatoString = listaPontos => {
+  obterListaEmFormatoString = (listaPontos) => {
     let lista = [];
-    _.forEach(listaPontos, function(ponto) {
+    _.forEach(listaPontos, function (ponto) {
       let valor = ponto[0].toString() + ';' + ponto[1].toString();
       lista.push(valor);
     });
@@ -272,7 +270,7 @@ class Graficos extends Component {
     listaDePontosResultadoFrenteParetoString
   ) => {
     let lista = [];
-    _.forEach(listaDePontosResultadoFrenteParetoString, function(ponto) {
+    _.forEach(listaDePontosResultadoFrenteParetoString, function (ponto) {
       let index = listaDePontosDosMateriaisString.indexOf(ponto);
       lista.push(index);
     });
@@ -294,10 +292,10 @@ class Graficos extends Component {
       y: null,
       toolTipContent: null,
       color: null,
-      markerSize: null
+      markerSize: null,
     };
     let self = this;
-    _.forEach(listaDeMateriais, function(dataPoint) {
+    _.forEach(listaDeMateriais, function (dataPoint) {
       if (
         listaIndexDoResultadoFrentePareto.includes(indexLoop) &&
         dataPointsFrenteParetoOriginal === null
@@ -307,7 +305,7 @@ class Graficos extends Component {
           y: dataPoint.y,
           toolTipContent: dataPoint.toolTipContent,
           markerSize: 15,
-          color: 'red'
+          color: 'red',
         };
         listaFrenteParetoOriginal.push(novoDataPoint);
         materiasFrentePareto.push(dataPoint);
@@ -322,12 +320,12 @@ class Graficos extends Component {
           y: dataPoint.y,
           toolTipContent:
             dataPoint.toolTipContent +
-            `<br/> <b>Distância até a frente de pareto: </b> ${distanciaEuclidiana.toFixed(
+            `<br/> <b>Distance to Pareto Front: </b> ${distanciaEuclidiana.toFixed(
               2
             )} <br/>`,
           markerSize: 12,
           color: 'yellow',
-          distancia: distanciaEuclidiana
+          distancia: distanciaEuclidiana,
         };
         listaFrenteParetoNova.push(novoDataPoint);
       } else {
@@ -336,21 +334,21 @@ class Graficos extends Component {
           y: dataPoint.y,
           toolTipContent: dataPoint.toolTipContent,
           markerSize: 5,
-          color: 'blue'
+          color: 'blue',
         };
         listaOutrosPontos.push(novoDataPoint);
       }
       indexLoop++;
     });
     if (!dataPointsFrenteParetoOriginal) {
-      listaFrenteParetoOriginal.sort(function(a, b) {
+      listaFrenteParetoOriginal.sort(function (a, b) {
         return a.x - b.x;
       });
 
       this.setState({
         dataPointsFrenteParetoOriginal: listaFrenteParetoOriginal,
         quantidadePontosOriginal:
-          listaFrenteParetoOriginal.length + listaOutrosPontos.length
+          listaFrenteParetoOriginal.length + listaOutrosPontos.length,
       });
 
       this.props.alteraEstadoAppFrenteParetoOriginal(
@@ -367,11 +365,11 @@ class Graficos extends Component {
     return {
       pontosParetoOriginal: listaFrenteParetoOriginal,
       pontosPareto: listaFrenteParetoNova,
-      pontosNormal: listaOutrosPontos
+      pontosNormal: listaOutrosPontos,
     };
   };
 
-  obterDistanciaEclidiana = pontoAtual => {
+  obterDistanciaEclidiana = (pontoAtual) => {
     let listaDistancias = [];
     let listaFrenteParetoOriginal = this.state.dataPointsFrenteParetoOriginal;
 
@@ -379,11 +377,11 @@ class Graficos extends Component {
       let p = { x: pontoAtual.x, y: pontoAtual.y };
       let v = {
         x: listaFrenteParetoOriginal[i].x,
-        y: listaFrenteParetoOriginal[i].y
+        y: listaFrenteParetoOriginal[i].y,
       };
       let w = {
         x: listaFrenteParetoOriginal[i + 1].x,
-        y: listaFrenteParetoOriginal[i + 1].y
+        y: listaFrenteParetoOriginal[i + 1].y,
       };
 
       let distanciaCalculada = this.distToSegment(p, v, w);
@@ -392,7 +390,7 @@ class Graficos extends Component {
     return _.min(listaDistancias);
   };
 
-  sqr = x => {
+  sqr = (x) => {
     return x * x;
   };
 
@@ -409,7 +407,7 @@ class Graficos extends Component {
     t = Math.max(0, Math.min(1, t));
     return this.dist2(p, {
       x: v.x + t * (w.x - v.x),
-      y: v.y + t * (w.y - v.y)
+      y: v.y + t * (w.y - v.y),
     });
   };
 
@@ -417,28 +415,7 @@ class Graficos extends Component {
     return Math.sqrt(this.distToSegmentSquared(p, v, w));
   };
 
-  calculaParametrosDaReta = (x1, y1, x2, y2) => {
-    let coeficiente = (y2 - y1) / (x2 + x1);
-    let termoIndependente = y1 - coeficiente * x1;
-    return {
-      coeficiente: coeficiente,
-      termoIndependente: termoIndependente
-    };
-  };
-
-  calcularDistanciaDoPontoAReta = (coeficiente, termoIndependente, x0, y0) => {
-    let a = coeficiente;
-    let b = -1;
-    let c = termoIndependente;
-
-    let distancia =
-      Math.abs(a * x0 + b * y0 + c) /
-      Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-
-    return distancia;
-  };
-
-  shouldComponentUpdate = nextProps => {
+  shouldComponentUpdate = (nextProps) => {
     if (
       nextProps.elementosSelecionados !== this.props.elementosSelecionados ||
       nextProps.compostosSelecionados !== this.props.compostosSelecionados ||
@@ -456,12 +433,12 @@ class Graficos extends Component {
       elementosSelecionados,
       compostosSelecionados,
       tipoFiltroCategoria,
-      tipoFiltroLogico
+      tipoFiltroLogico,
     } = this.props;
 
     const {
       dataPointsFrenteParetoOriginal,
-      quantidadePontosOriginal
+      quantidadePontosOriginal,
     } = this.state;
 
     const materiais = this.calculaDataPoints(
@@ -515,26 +492,31 @@ class Graficos extends Component {
           gutterBottom
           style={{ display: 'inline-block', marginRight: '80px' }}
         >
-          Total de materiais: {materiais.length}
+          Total materials: {materiais.length}
+          {/* Total de materiais: {materiais.length} */}
         </Typography>
         <Typography
           variant='h6'
           gutterBottom
           style={{ display: 'inline-block' }}
         >
-          Total na Frente de Pareto: {listaIndexDoResultadoFrentePareto.length}
+          Total Pareto Front: {listaIndexDoResultadoFrentePareto.length}
+          {/* Total na Frente de Pareto: {listaIndexDoResultadoFrentePareto.length} */}
         </Typography>
         <ExpansionPanel defaultExpanded={true}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Gráfico Normal</Typography>
+            <Typography className={classes.heading}>
+              Normal Chart
+              {/* Gráfico Normal */}
+            </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <CanvasJSChart
               options={this.obterOpcoesGrafico(
                 materiais,
-                'Fator de Qualidade - Qf (GHz) vs Constante Dielétrica - εr',
-                'Constante Dielétrica',
-                'Fator de Qualidade (Q*GHz)'
+                'Quality Factor Qf (GHz) vs Relative Permittivity εr',
+                'Relative Permittivity',
+                'Quality Factor (Q*GHz)'
               )}
             />
           </ExpansionPanelDetails>
@@ -542,7 +524,8 @@ class Graficos extends Component {
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}>
-              Gráfico Frente de Pareto
+              Pareto Front Chart
+              {/* Gráfico Frente de Pareto */}
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
@@ -554,9 +537,9 @@ class Graficos extends Component {
                 materiaisResultadoFrentePareto.pontosPareto,
                 materiaisResultadoFrentePareto.pontosNormal,
                 quantidadePontosOriginal,
-                'Fator de Qualidade - Qf (GHz) vs Constante Dielétrica - εr',
-                'Constante Dielétrica',
-                'Fator de Qualidade (Q*GHz)'
+                'Quality Factor Qf (GHz) vs Relative Permittivity εr',
+                'Relative Permittivity',
+                'Quality Factor (Q*GHz)'
               )}
             />
           </ExpansionPanelDetails>
@@ -564,14 +547,15 @@ class Graficos extends Component {
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}>
-              Gráfico Logaritmo
+              Log Chart
+              {/* Gráfico Logaritmo */}
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <CanvasJSChart
               options={this.obterOpcoesGrafico(
                 materiaisLog,
-                'Fator de Qualidade - Qf (GHz) vs Constante Dielétrica - εr',
+                'Quality Factor Qf (GHz) vs Relative Permittivity εr',
                 'Log(εr)',
                 'Log(Qf)'
               )}
@@ -584,14 +568,14 @@ class Graficos extends Component {
   }
 }
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
-    width: '100%'
+    width: '100%',
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular
-  }
+    fontWeight: theme.typography.fontWeightRegular,
+  },
 });
 
 export default withStyles(styles)(Graficos);

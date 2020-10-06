@@ -9,45 +9,45 @@ import Typography from '@material-ui/core/Typography';
 
 import _ from 'lodash';
 
-const styles = theme => ({
+const styles = (theme) => ({
   list: {
-    width: 550
+    width: 550,
   },
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
   },
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
   },
   group: {
-    margin: `${theme.spacing.unit}px 0`
+    margin: `${theme.spacing.unit}px 0`,
   },
   card: {
-    minWidth: 275
+    minWidth: 275,
   },
   title: {
-    fontSize: 14
+    fontSize: 14,
   },
   pos: {
-    marginBottom: 12
+    marginBottom: 12,
   },
   posicaoTexto: {
-    marginLeft: 8
+    marginLeft: 8,
   },
   cardContent: {
-    marginLeft: 10
-  }
+    marginLeft: 10,
+  },
 });
 
 export class MenuLateralFrentePareto extends Component {
-  obterIdComDistancia = lista => {
+  obterIdComDistancia = (lista) => {
     if (lista && lista.length > 0) {
       const regex = /\d+/;
-      let objetoIdDistancia = _.map(lista, function(l) {
+      let objetoIdDistancia = _.map(lista, function (l) {
         return {
           Id: parseInt(l.toolTipContent.match(regex)[0]),
-          Distancia: l.distancia
+          Distancia: l.distancia,
         };
       });
       return objetoIdDistancia;
@@ -62,7 +62,7 @@ export class MenuLateralFrentePareto extends Component {
     }
 
     if (this.props.tipoFrentePareto === 'original') {
-      materiais = _.map(frentePareto, function(index) {
+      materiais = _.map(frentePareto, function (index) {
         return {
           Id: MateriaisCeramicosDuplicados[index].Id,
           Material: MateriaisCeramicosDuplicados[index].Material,
@@ -80,14 +80,14 @@ export class MenuLateralFrentePareto extends Component {
               .VariacaoTemperaturaFrequenciaRessonante,
           Referencia: MateriaisCeramicosDuplicados[index].Referencia,
           Elementos: MateriaisCeramicosDuplicados[index].Elementos,
-          Compostos: MateriaisCeramicosDuplicados[index].Compostos
+          Compostos: MateriaisCeramicosDuplicados[index].Compostos,
         };
       });
     } else {
       if (!distanciasComId) {
         return null;
       } else {
-        materiais = _.map(distanciasComId, function(distId) {
+        materiais = _.map(distanciasComId, function (distId) {
           return {
             Id: MateriaisCeramicosDuplicados[distId.Id].Id,
             Material: MateriaisCeramicosDuplicados[distId.Id].Material,
@@ -107,7 +107,7 @@ export class MenuLateralFrentePareto extends Component {
             Referencia: MateriaisCeramicosDuplicados[distId.Id].Referencia,
             Elementos: MateriaisCeramicosDuplicados[distId.Id].Elementos,
             Compostos: MateriaisCeramicosDuplicados[distId.Id].Compostos,
-            Distancia: distId.Distancia
+            Distancia: distId.Distancia,
           };
         });
       }
@@ -120,7 +120,7 @@ export class MenuLateralFrentePareto extends Component {
       classes,
       frentePareto,
       listaDataPointsFrenteParetoGerada,
-      tipoFrentePareto
+      tipoFrentePareto,
     } = this.props;
 
     let distanciasComId = listaDataPointsFrenteParetoGerada
@@ -134,11 +134,11 @@ export class MenuLateralFrentePareto extends Component {
     console.log('que q pegou nessa bagaca²', materiais);
 
     if (materiais && tipoFrentePareto === 'original') {
-      materiais.sort(function(a, b) {
+      materiais.sort(function (a, b) {
         return a.Id - b.Id;
       });
     } else if (materiais && tipoFrentePareto === 'nova') {
-      materiais.sort(function(a, b) {
+      materiais.sort(function (a, b) {
         return a.Distancia - b.Distancia;
       });
     }
@@ -146,7 +146,7 @@ export class MenuLateralFrentePareto extends Component {
     return (
       <div className={classes.list}>
         {materiais
-          ? _.map(materiais, material => {
+          ? _.map(materiais, (material) => {
               return (
                 <Card className={classes.card}>
                   <CardContent className={classes.cardContent}>
@@ -169,56 +169,85 @@ export class MenuLateralFrentePareto extends Component {
                     <Typography component='p'>
                       {tipoFrentePareto === 'nova' ? (
                         <div>
-                          <strong>Distância até a frente de pareto:</strong>
+                          <strong>
+                            Distance to Pareto Front:
+                            {/* Distância até a frente de pareto: */}
+                          </strong>
                           <span className={classes.posicaoTexto}>
                             {material.Distancia.toFixed(2)}
                           </span>
                         </div>
                       ) : null}
-                      <strong>Constante Dielétrica:</strong>
+                      <strong>
+                        Relative Permittivity:
+                        {/* Constante Dielétrica: */}
+                      </strong>
                       <span className={classes.posicaoTexto}>
                         {material.ConstanteDieletrica}
                       </span>
                       <br />
-                      <strong>Fator de Qualidade:</strong>
+                      <strong>
+                        Quality Factor:
+                        {/* Fator de Qualidade: */}
+                      </strong>
                       <span className={classes.posicaoTexto}>
                         {material.FatorQualidade}
                       </span>
                       <br />
-                      <strong>Elementos:</strong>
+                      <strong>
+                        Elements:
+                        {/* Elementos: */}
+                      </strong>
                       <span className={classes.posicaoTexto}>
                         {material.Elementos}
                       </span>
                       <br />
-                      <strong>Compostos:</strong>
+                      <strong>
+                        Compounds:
+                        {/* Compostos: */}
+                      </strong>
                       <span className={classes.posicaoTexto}>
                         {material.Compostos}
                       </span>
                       <br />
-                      <strong>Frequência de Medição:</strong>
+                      <strong>
+                        Measurement Frequency:
+                        {/* Frequência de Medição: */}
+                      </strong>
                       <span className={classes.posicaoTexto}>
                         {material.FrequenciaMedicao}
                       </span>
                       <br />
-                      <strong>Temperatura Sintetização:</strong>
+                      <strong>
+                        Sintering Temperature:
+                        {/* Temperatura Sintetização: */}
+                      </strong>
                       <span className={classes.posicaoTexto}>
                         {material.TemperaturaSintetizacao}
                       </span>
                       <br />
-                      <strong>Estrutura Cristalina:</strong>
+                      <strong>
+                        Crystal Structure:
+                        {/* Estrutura Cristalina: */}
+                      </strong>
                       <span className={classes.posicaoTexto}>
                         {material.EstruturaCristalina}
                       </span>
                       <br />
                       <strong>
-                        Coeficiente da variação de temperatura da frequência
-                        ressonante:
+                        Coefficient of Temperature Variation of Resonant
+                        Frequency:
+                        {/* Coeficiente da variação de temperatura da frequência
+                        ressonante: */}
                       </strong>
                       <span className={classes.posicaoTexto}>
                         {material.VariacaoTemperaturaFrequenciaRessonante}
                       </span>
                       <br />
-                      <strong>Referência:</strong>
+                      <strong>
+                        Reference:
+                        {/* Referência: */}
+                      </strong>
                       <span className={classes.posicaoTexto}>
                         {material.Referencia}
                       </span>
@@ -250,12 +279,13 @@ export class MenuLateralFrentePareto extends Component {
           style={{
             marginTop: '10px',
             marginBottom: '10px',
-            textAlign: 'center'
+            textAlign: 'center',
           }}
           variant='h5'
           gutterBottom
         >
-          Frente de Pareto
+          Pareto Front
+          {/* Frente de Pareto */}
         </Typography>
 
         <Divider />

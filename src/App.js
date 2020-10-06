@@ -12,13 +12,14 @@ import MenuLateralFrentePareto from './MenuLateralFrentePareto';
 import { EstadoElementosTrue } from './const/EstadoElementosTrue.js';
 import { EstadoCompostosTrue } from './const/EstadoCompostosTrue.js';
 import TabelaCeramicas from './TabelaCeramicas';
+import Previsor from './Previsor';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
     width: '100%',
-    backgroundColor: theme.palette.background.paper
-  }
+    backgroundColor: theme.palette.background.paper,
+  },
 });
 
 class App extends Component {
@@ -36,25 +37,25 @@ class App extends Component {
       frenteParetoNova: null,
       listaDataPointsFrenteParetoGerada: null,
       elementos: EstadoElementosTrue,
-      compostos: EstadoCompostosTrue
+      compostos: EstadoCompostosTrue,
     };
   }
 
-  alteraEstadoAppFrenteParetoOriginal = frentePareto => {
+  alteraEstadoAppFrenteParetoOriginal = (frentePareto) => {
     this.setState({ frenteParetoOriginal: frentePareto });
   };
 
-  alteraEstadoAppFrenteParetoNova = frentePareto => {
+  alteraEstadoAppFrenteParetoNova = (frentePareto) => {
     this.setState({ frenteParetoNova: frentePareto });
   };
 
-  alteraEstadoAppListaDataPoninsFrenteParetoGerada = dataPoints => {
+  alteraEstadoAppListaDataPoninsFrenteParetoGerada = (dataPoints) => {
     this.setState({ listaDataPointsFrenteParetoGerada: dataPoints });
   };
 
   toggleDrawer = (side, open) => () => {
     this.setState({
-      [side]: open
+      [side]: open,
     });
   };
 
@@ -63,7 +64,7 @@ class App extends Component {
       elementos: listaElementos,
       filtroElemento: false,
       tipoFiltroCategoria: 'elementos',
-      tipoFiltroLogico: tipoFiltroLogico
+      tipoFiltroLogico: tipoFiltroLogico,
     });
   };
 
@@ -72,7 +73,7 @@ class App extends Component {
       compostos: listaCompostos,
       filtroComposto: false,
       tipoFiltroCategoria: 'compostos',
-      tipoFiltroLogico: tipoFiltroLogico
+      tipoFiltroLogico: tipoFiltroLogico,
     });
   };
 
@@ -96,8 +97,9 @@ class App extends Component {
               scrollButtons='auto'
               centered
             >
-              <Tab label='Gráficos' />
-              <Tab label='Tabela' />
+              <Tab label='Charts' />
+              <Tab label='Table' />
+              <Tab label='Predictor' />
             </Tabs>
           </AppBar>
           {value === 0 && (
@@ -107,49 +109,53 @@ class App extends Component {
                   marginTop: '24px',
                   marginBottom: '24px',
                   marginRight: '8px',
-                  marginLeft: '8px'
+                  marginLeft: '8px',
                 }}
                 variant='outlined'
                 onClick={this.toggleDrawer('filtroElemento', true)}
               >
-                Filtrar Gráficos por Elemento
+                Filter Charts by Elements
+                {/* Filtrar Gráficos por Elemento */}
               </Button>
               <Button
                 style={{
                   marginTop: '24px',
                   marginBottom: '24px',
                   marginRight: '8px',
-                  marginLeft: '8px'
+                  marginLeft: '8px',
                 }}
                 variant='outlined'
                 onClick={this.toggleDrawer('filtroComposto', true)}
               >
-                Filtrar Gráficos por Compostos
+                Filter Charts by Compounds
+                {/* Filtrar Gráficos por Compostos */}
               </Button>
               <Button
                 style={{
                   marginTop: '24px',
                   marginBottom: '24px',
                   marginRight: '8px',
-                  marginLeft: '8px'
+                  marginLeft: '8px',
                 }}
                 variant='outlined'
                 onClick={this.toggleDrawer('menuFrentePareto', true)}
               >
-                Exibir Elementos Frente de Pareto
+                Display Chemical Compounds Pareto Front
+                {/* Exibir Elementos Frente de Pareto */}
               </Button>
               <Button
                 style={{
                   marginTop: '24px',
                   marginBottom: '24px',
                   marginRight: '8px',
-                  marginLeft: '8px'
+                  marginLeft: '8px',
                 }}
                 variant='outlined'
                 onClick={this.toggleDrawer('menuFrenteParetoNova', true)}
                 disabled={this.state.frenteParetoNova === null}
               >
-                Exibir Elementos Frente de Pareto do Filtro
+                Display Chemical Compounds Pareto Front from Filter
+                {/* Exibir Elementos Frente de Pareto do Filtro */}
               </Button>
               {/* <a href='./lista-materiais-ceramicos.pdf' download>
           Click to download
@@ -200,6 +206,7 @@ class App extends Component {
             </div>
           )}
           {value === 1 && <TabelaCeramicas />}
+          {value === 2 && <Previsor />}
         </div>
       </div>
     );
