@@ -57,6 +57,15 @@ const styles = (theme) => ({
   itemLista: {
     border: '1px solid',
   },
+  tamanhoListaCriada: {
+    width: '900px',
+    margin: 'auto',
+    border: '1px solid',
+    padding: '10px',
+  },
+  alinharTextoCentro:{
+    textAlign: 'center'
+  }
 });
 
 function Previsor(props) {
@@ -155,15 +164,15 @@ function Previsor(props) {
     setOpenLoading(true);
     try {
       const response = await fetch(
-        'http://192.168.99.100:5000/',
+        'http://192.168.99.107:5000/',
         requestOptions
       );
       const data = await response.json();
 
       let composto = {
         Material: montaForumula(),
-        ConstanteDieletrica: data.constanteDieletrica,
-        FatorQualidade: data.fatorQualidade,
+        ConstanteDieletrica: parseFloat(data.constanteDieletrica),
+        FatorQualidade: parseFloat(data.fatorQualidade),
         Elementos: montaElementos(),
         Compostos: montaCompostos(),
       };
@@ -244,7 +253,7 @@ function Previsor(props) {
                 value={quantidade}
                 onChange={handleChangeQuantidade}
                 id='standard-basic'
-                label='Quantidade'
+                label='Quantity'
                 type='number'
                 min='0'
               />
@@ -290,7 +299,7 @@ function Previsor(props) {
           variant='contained'
           disabled={listaEscolhida.length < 2}
         >
-          Get compost results
+          Get compound results
           {/* Enviar composto para análise */}
         </Button>
         <ExpansionPanelDetails>
@@ -304,7 +313,7 @@ function Previsor(props) {
                 <Grid container spacing={3}>
                   <ListItem>
                     <Grid item xs={4}>
-                      <ListItemText primary={'Elememt'} />
+                      <ListItemText primary={'Element'} />
                     </Grid>
                     <Grid item xs={4}>
                       <ListItemText primary={'Quantity'} />
@@ -353,33 +362,31 @@ function Previsor(props) {
               Created Compounds List
             </Typography>
             <div>
-              <List className={props.classes.root}>
+              <List className={props.classes.tamanhoListaCriada}>
                 <Grid container spacing={3}>
                   <ListItem>
                     <Grid item xs={4}>
-                      <ListItemText primary={'Chemical Formula'} />
+                      <ListItemText className={props.classes.alinharTextoCentro} primary={'Chemical Formula'} />
                     </Grid>
                     <Grid item xs={4}>
-                      <ListItemText primary={'Relative Permittivity'} />
+                      <ListItemText className={props.classes.alinharTextoCentro} primary={'Relative Permittivity'} />
                     </Grid>
                     <Grid item xs={4}>
-                      <ListItemSecondaryAction>
-                        <ListItemText primary={'Quality Factor'} />
-                      </ListItemSecondaryAction>
+                      <ListItemText className={props.classes.alinharTextoCentro} primary={'Quality Factor'} />
                     </Grid>
                   </ListItem>
                   {listaCompostosCriados.map((composto) => (
                     <ListItem>
                       <Grid item xs={4}>
-                        <ListItemText primary={composto.Material} />
+                        <ListItemText className={props.classes.alinharTextoCentro} primary={composto.Material} />
                       </Grid>
                       <Grid item xs={4}>
-                        <ListItemText
+                        <ListItemText className={props.classes.alinharTextoCentro}
                           primary={composto.ConstanteDieletrica.toFixed(2)}
                         />
                       </Grid>
                       <Grid item xs={4}>
-                        <ListItemText
+                        <ListItemText className={props.classes.alinharTextoCentro}
                           primary={composto.FatorQualidade.toFixed(2)}
                         />
                       </Grid>

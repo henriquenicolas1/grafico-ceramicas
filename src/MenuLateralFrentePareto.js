@@ -88,26 +88,27 @@ export class MenuLateralFrentePareto extends Component {
         return null;
       } else {
         materiais = _.map(distanciasComId, function (distId) {
+          let index = distId.Id - 1;
           return {
-            Id: MateriaisCeramicosDuplicados[distId.Id].Id,
-            Material: MateriaisCeramicosDuplicados[distId.Id].Material,
+            Id: MateriaisCeramicosDuplicados[index].Id,
+            Material: MateriaisCeramicosDuplicados[index].Material,
             TemperaturaSintetizacao:
-              MateriaisCeramicosDuplicados[distId.Id].TemperaturaSintetizacao,
+              MateriaisCeramicosDuplicados[index].TemperaturaSintetizacao,
             EstruturaCristalina:
-              MateriaisCeramicosDuplicados[distId.Id].EstruturaCristalina,
+              MateriaisCeramicosDuplicados[index].EstruturaCristalina,
             ConstanteDieletrica:
-              MateriaisCeramicosDuplicados[distId.Id].ConstanteDieletrica,
+              MateriaisCeramicosDuplicados[index].ConstanteDieletrica,
             FatorQualidade:
-              MateriaisCeramicosDuplicados[distId.Id].FatorQualidade,
+              MateriaisCeramicosDuplicados[index].FatorQualidade,
             FrequenciaMedicao:
-              MateriaisCeramicosDuplicados[distId.Id].FrequenciaMedicao,
+              MateriaisCeramicosDuplicados[index].FrequenciaMedicao,
             VariacaoTemperaturaFrequenciaRessonante:
-              MateriaisCeramicosDuplicados[distId.Id]
+              MateriaisCeramicosDuplicados[index]
                 .VariacaoTemperaturaFrequenciaRessonante,
-            Referencia: MateriaisCeramicosDuplicados[distId.Id].Referencia,
-            Elementos: MateriaisCeramicosDuplicados[distId.Id].Elementos,
-            Compostos: MateriaisCeramicosDuplicados[distId.Id].Compostos,
-            Distancia: distId.Distancia,
+            Referencia: MateriaisCeramicosDuplicados[index].Referencia,
+            Elementos: MateriaisCeramicosDuplicados[index].Elementos,
+            Compostos: MateriaisCeramicosDuplicados[index].Compostos,
+            Distancia: distId.Distancia
           };
         });
       }
@@ -130,8 +131,6 @@ export class MenuLateralFrentePareto extends Component {
     let materiais = frentePareto
       ? this.obterMateriais(frentePareto, distanciasComId)
       : null;
-
-    console.log('que q pegou nessa bagaca²', materiais);
 
     if (materiais && tipoFrentePareto === 'original') {
       materiais.sort(function (a, b) {
